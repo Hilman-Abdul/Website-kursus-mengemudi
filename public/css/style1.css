@@ -1,0 +1,141 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(to bottom,#C3F0FD 28%, #23A1C4 72%);
+}
+
+.container {
+  position: relative;
+  width: 600px;
+  height: 550px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  backdrop-filter: blur(15px);
+	animation:0.3s cubic-bezier(0.470, 0.000, 0.745, 0.715) 2s both;
+  overflow: hidden;
+}
+
+#flip {
+  display: none;
+}
+
+/* Menyusun dua form berdampingan */
+.forms {
+  height: 100%;
+  width: 200%;
+  display: flex;
+  transition: all 0.6s ease;
+}
+
+/* Saat checkbox aktif, geser ke form register */
+#flip:checked ~ .forms {
+  margin-left: -100%;
+}
+
+.form-content {
+  width: 50%;
+  padding: 40px;
+  color: white;
+}
+
+.title {
+  text-align: center;
+  font-size: 2em;
+  margin-bottom: 20px;
+  color: #23A1C4;
+}
+
+.input-box {
+  margin-bottom: 15px;
+}
+
+.input-box input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  font-size: 1em;
+}
+
+.input-box.button input {
+  background: #23A1C4;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.input-box.button input:hover {
+  background: #C3F0FD;
+}
+
+.text {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 0.9em;
+}
+
+.text .switch {
+  color: #23A1C4;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.social-login {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.social-login p {
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #666;
+}
+
+.social-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width:200px;
+  height:30px;
+}
+
+.social-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 25%;
+  padding: 8px;
+  background: #fff;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  transition: 0.3s;
+}
+
+.social-btn img {
+  width: 20px;
+  margin-right: 8px;
+}
+
+.social-btn:hover {
+  transform: scale(1.03);
+}
+
+/* Warna brand */
+.google { border-color: #db4437; color: #db4437; }
+.facebook { border-color: #1877f2; color: #1877f2; }
+.instagram { border-color: #e1306c; color: #e1306c; }

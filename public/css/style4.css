@@ -1,0 +1,144 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom,#C3F0FD 28%, #23A1C4 72%);
+    min-height: 100vh
+}
+
+/* Tulisan DRIVV jadi hitam */
+.navbar-brand {
+  color: #000;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+/* Style umum tombol navbar */
+.navbar .btn {
+  background-color: #C3F0FD; /* warna awal */
+  color: #000; /* warna teks tombol */
+  border: 1px solid #6c757d;
+  border-radius: 20px;
+  padding: 6px 14px;
+  transition: all 0.3s ease;
+}
+
+/* Efek hover untuk tombol navbar biasa */
+.navbar .btn:hover {
+  background-color: #23A1C4; /* warna abu-abu dari outline-secondary */
+  color: #fff;
+  transform: scale(1.05);
+}
+
+/* Efek untuk tombol logo (bulat) */
+.navbar .btn img {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.navbar .btn:hover img {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.4);
+  border-radius: 50%;
+}
+
+p {
+    color:#000;
+}
+
+
+.navbar {
+  position: relative; /* pastikan posisinya jelas */
+  z-index: 10; /* di atas konten biasa tapi tidak nutupi area klik hero */
+}
+
+.hero-section a,
+.hero-section button{
+  position: relative;
+  z-index: 1; /* di bawah navbar */
+  pointer-events: auto; /* aktifkan lagi klik hero, biar bisa dikontrol */
+}
+
+.paket-card {
+  background-color:#C0E3ED;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+}
+
+.paket-card:hover {
+  transform: translateY(-5px);
+}
+
+.paket-btn {
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 16px;
+  text-align: left;
+  transition: all 0.3s ease;
+}
+
+.paket-btn:hover {
+  background-color: #f0f8ff;
+  border-color: #00bcd4;
+  transform: scale(1.02);
+}
+
+.opsi-lain-btn {
+  background-color: white;
+  color: #2a6ebf;
+  font-weight: bold;
+  padding: 8px 25px;
+  border-radius: 20px;
+  text-decoration: none;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.opsi-lain-btn:hover {
+  background-color: #e8f5ff;
+}
+
+.paket-section {
+  padding: 50px 0;
+}
+
+.paket-btn {
+  background-color: white;
+  border: 2px solid #34b4e6;
+  border-radius: 10px;
+  padding: 10px;
+  font-weight: 500;
+  color: #333;
+  transition: 0.3s;
+}
+.paket-btn:hover {
+  background-color: #34b4e6;
+  color: white;
+}
+.opsi-lain-label {
+  display: inline-block;
+  background-color: #34b4e6;
+  color: white;
+  border-radius: 20px;
+  padding: 8px 30px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 20px;
+  transition: 0.3s;
+}
+.opsi-lain-label:hover {
+  background-color: #1f95c0;
+}
+/* Bagian tersembunyi */
+#lihat:checked ~ .paket-lain {
+  display: block;
+}
+.paket-lain {
+  display: none;
+  margin-top: 40px;
+  animation: fadeIn 0.5s ease-in-out;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
