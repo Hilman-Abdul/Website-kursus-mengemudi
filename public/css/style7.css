@@ -1,0 +1,117 @@
+#payment {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f2f6ff;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.payment-box {
+  background: white;
+  width: 420px;
+  padding: 32px;
+  border-radius: 14px;
+  text-align: center;
+  border: 1px solid #dcdcdc;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+.title {
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.product-name {
+  color: #666;
+}
+
+.price {
+  margin: 12px 0 28px;
+  font-size: 28px;
+  color: #222;
+}
+
+.choose {
+  color: #444;
+  margin-bottom: 12px;
+}
+
+.wallet-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.wallet-btn {
+  padding: 10px 18px;
+  border: 1px solid #007bff;
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #007bff;
+  transition: 0.3s;
+}
+
+.wallet-btn:hover,
+.wallet-btn.active {
+  background: #007bff;
+  color: white;
+}
+
+.info.hidden {
+  display: none;
+}
+
+.info {
+  margin-top: 20px;
+}
+
+.number {
+  margin: 8px 0 20px;
+  font-size: 22px;
+  color: #111;
+}
+
+.confirm {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.confirm:hover {
+  background: #1f7e36;
+}
+
+/* MODAL */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-box {
+  background: white;
+  padding: 26px;
+  width: 300px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+#okBtn {
+  margin-top: 16px;
+  background: #007bff;
+  border: none;
+  padding: 10px 18px;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}

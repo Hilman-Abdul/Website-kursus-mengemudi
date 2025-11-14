@@ -15,7 +15,7 @@
       <!-- Form Login -->
       <div class="form-content login">
         <h2 class="title">Login</h2>
-        <form action="login.php" method="POST">
+        <form action="{{ route('login') }}" method="POST"> @csrf
           <div class="input-box">
             <input type="email" name="email" placeholder="Email" required>
           </div>
@@ -56,7 +56,7 @@
       <!-- Form Sign up -->
       <div class="form-content register">
         <h2 class="title">Sign up</h2>
-        <form action="register.php" method="POST">
+        <form action="{{ route('register') }}" method="POST"> @csrf
           <div class="input-box">
             <input type="text" name="username" placeholder="Username" required>
           </div>

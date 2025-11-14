@@ -75,12 +75,12 @@
     </div>
 
     <script>
-        // Setelah halaman dimuat, tunggu 5 detik lalu redirect
+        // Setelah halaman dimuat, tunggu 2 detik lalu redirect
         window.addEventListener('load', () => {
             setTimeout(() => {
                 // Arahkan ke route dashboard
                 window.location.href = "{{ route('frontend.dashboard') }}";
-            }, 5000); // 5 detik
+            }, 2000); // 2 detik
         });
     </script>
 </body>
