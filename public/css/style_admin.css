@@ -1,0 +1,79 @@
+body {
+    background: linear-gradient(to bottom,#C3F0FD 28%, #23A1C4 72%);
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+}
+
+/* topbar */
+.topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    z-index: 1000;
+}
+
+/* geser konten ke bawah biar tidak ketutup topbar */
+.content {
+    margin-top: 70px;
+    padding: 20px;
+}
+
+
+/* SIDEBAR */
+.sidebar {
+    width: 250px;
+    min-height: 100vh;
+    background: #0a0e22;
+    position: fixed;
+    top: 60px; 
+    left: 0;
+    padding-top: 20px;
+    transition: 0.3s;
+    z-index: 10;
+}
+
+.sidebar.collapsed {
+    width: 70px;
+}
+
+.sidebar a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+    color: whitesmoke;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: 0.3s;
+}
+
+.sidebar.collapsed a span {
+    display: none;
+}
+
+.content {
+    margin-left: 260px;
+    padding: 30px;
+    transition: 0.3s;
+}
+
+.content.collapsed {
+    margin-left: 80px;
+}
+
+.card-box {
+    background: #b7e7ff;
+    border-radius: 12px;
+    padding: 25px;
+    min-height: 160px;
+    color: #0a0e22;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.35);
+}
+
+.value {
+    margin-top: 10px;
+    font-size: 36px;
+    font-weight: bold;
+}
