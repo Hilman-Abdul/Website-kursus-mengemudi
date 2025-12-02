@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('peserta', function (Blueprint $table) {
-            $table->id('id_peserta');
-            $table->string('Nama');
-            $table->string('Alamat');
-            $table->string('Tingkatan_Sabuk');
-            $table->integer('No_Reg');
-
-            $table->timestamps();
+        Schema::create('table_peserta', function (Blueprint $table) {
+            $table->integer('id');
+            $table->string('nama');
+            $table->string('password');            
+            $table->string('email');
         });
     }
 
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('peserta');
+        Schema::dropIfExists('table_peserta');
     }
 };

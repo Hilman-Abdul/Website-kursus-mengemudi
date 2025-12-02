@@ -1,98 +1,123 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DataDiriController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserRatingController;
+use App\Http\Controllers\InstrukturController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\JadwalController;
+use App\Http\Controllers\PaketKursusController;
+use App\Http\Controllers\UserPaketController;
+use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\AdminRatingController;
+use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\UserJadwalController;
 
-Route::get('/index1', function () {
-    return view('frontend.index');
-})->name('frontend.index');
+/*
+|--------------------------------------------------------------------------
+| PUBLIC ROUTES
+|--------------------------------------------------------------------------
+*/
+Route::get('/', fn() => view('frontend.loading_screen'))->name('frontend.loading_screen');
 
-Route::get('/dashboard1', function () {
-    return view('frontend.dashboard');
-})->name('frontend.dashboard');
+Route::get('/paket1', fn() => view('frontend.paket'))->name('frontend.paket');
+Route::get('/tentang1', fn() => view('frontend.tentang'))->name('frontend.tentang');
+Route::get('/kontak1', fn() => view('frontend.kontak'))->name('frontend.kontak');
 
-Route::get('/dashboard2', function () {
-    return view('coba1.dashboard');
-})->name('coba1.dashboard');
+Route::get('/dashboard', [FrontendController::class, 'dashboard'])->name('frontend.dashboard');
 
-Route::get('/coba', function () {
-    return view('coba1.coba1');
-})->name('coba1.coba1');
+// Halaman transaksi kosong (belum isi)
+Route::get('/form/transaksi', fn() => view('frontend.transaksi'))->name('frontend.transaksi');
 
-Route::get('/loading1', function () {
-    return view('frontend.loading_screen');
+// Rating publik
+Route::get('/rating', fn() => view('frontend.rating'))->name('frontend.rating');
+
+
+/*
+|--------------------------------------------------------------------------
+| AUTH ROUTES
+|--------------------------------------------------------------------------
+*/
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login.page');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+
+Route::get('/register', [AuthController::class, 'showRegister'])->name('register.page');
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+
+/*
+|--------------------------------------------------------------------------
+| USER ROUTES (HARUS LOGIN)
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth'])->group(function () {
+
+    // Lengkapi Data Diri
+    Route::get('/lengkapi-data', [DataDiriController::class, 'index'])->name('data.lengkapi');
+    Route::post('/lengkapi-data', [DataDiriController::class, 'store'])->name('data.simpan');
+
+    /*
+    |--------------------------------------------------------------------------
+    | USER ROUTES (DATA DIRI HARUS LENGKAP)
+    |--------------------------------------------------------------------------
+    */
+    Route::middleware(['data.lengkap'])->group(function () {
+
+        // Profile
+        Route::get('/profile', [ProfileController::class, 'index'])->name('frontend.profile');
+        Route::post('/profile/update', [ProfileController::class, 'update'])
+            ->name('frontend.profile.update');
+
+        // Rating user
+        Route::get('/rating/form', [UserRatingController::class, 'create'])->name('rating.form');
+        Route::post('/rating', [UserRatingController::class, 'store'])->name('rating.store');
+
+        // Pilih paket
+        Route::post('/pilih-paket', [UserPaketController::class, 'pilihPaket'])->name('pilih.paket');
+        Route::get('/batalkan-paket', [UserPaketController::class, 'batal'])->name('paket.batal');
+
+        /*
+        |--------------------------------------------------------------------------
+        | USER — JADWAL KURSUS (FINAL)
+        |--------------------------------------------------------------------------
+        */
+        Route::get('/jadwal', [UserJadwalController::class, 'userIndex'])->name('jadwal.user');
+        Route::post('/jadwal/store', [UserJadwalController::class, 'pilihJadwal'])->name('jadwal.store');
+
+        // API untuk cek tanggal yang sudah di-booking
+        Route::get('/jadwal/booked', [UserJadwalController::class, 'getBookedDates'])
+            ->name('jadwal.booked');
+    });
 });
 
-Route::get('/tentang1', function () {
-    return view('frontend.tentang');
-})->name('frontend.tentang');
 
-Route::get('/paket1', function () {
-    return view('frontend.paket');
-})->name('frontend.paket');
+/*
+|--------------------------------------------------------------------------
+| ADMIN ROUTES
+|--------------------------------------------------------------------------
+*/
+Route::prefix('admin')->group(function () {
 
-Route::get('/kontak1', function () {
-    return view('frontend.kontak');
-})->name('frontend.kontak');
+    // Login admin
+    Route::get('/login', [AdminAuthController::class, 'showLogin'])->name('admin.login.page');
+    Route::post('/login', [AdminAuthController::class, 'login'])->name('admin.login');
 
-Route::get('/transaksi1', function () {
-    return view('frontend.transaksi');
-})->name('frontend.transaksi');
+    // Logout admin
+    Route::post('/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 
-Route::get('/struk', function () {
-    return view('frontend.index2');
-})->name('frontend.index2');
+    // Dashboard admin
+    Route::get('/dashboard', fn() => view('admin.dashboard'))->name('admin.dashboard');
 
-Route::get('/data_diri1', function () {
-    return view('frontend.data_diri');
-})->name('frontend.data_diri');
-
-Route::get('/lengkapi-data', [App\Http\Controllers\DataDiriController::class, 'index'])->name('data.lengkapi');
-Route::post('/lengkapi-data', [App\Http\Controllers\DataDiriController::class, 'store'])->name('data.simpan');
-
-Route::get('/rating', [RatingController::class, 'index'])->name('rating.index');
-Route::post('/rating', [RatingController::class, 'store'])->name('rating.store');
-
-/*Route::get('/admin', [DashboardController::class, 'index'])->name('admin.dashboard');*/
-
-Route::get('/admin', function () {
-    return view('admin.dashboard');
-})->name('admin.dashboard');
-
-
-// Frontend CRUD User (UI Saja)
-Route::get('/users', function () {
-    return view('admin.users.index');
-});
-
-Route::get('/users/create', function () {
-    return view('admin.users.create');
-});
-
-Route::get('/users/{id}/edit', function () {
-    return view('admin.users.edit');
-});
-
-Route::get('/users', function () {
-    return view('admin.users.index');
-});
-
-Route::get('/instruktur', function () {
-    return view('admin.instruktur.index');
-});
-
-// Halaman tambah instruktur
-Route::get('/instruktur/create', function () {
-    return view('admin.instruktur.create');
-});
-
-// Halaman edit instruktur
-Route::get('/instruktur/{id}/edit', function ($id) {
-    return view('admin.instruktur.edit', compact('id'));
-});
-
-// Aksi hapus (sementara hanya redirect)
-Route::get('/instruktur/{id}/delete', function ($id) {
-    return redirect('admin/instruktur');
+    // CRUD Admin
+    Route::resource('instruktur', InstrukturController::class);
+    Route::resource('users', UserController::class);
+    Route::resource('jadwal', JadwalController::class);  // admin CRUD
+    Route::resource('paket_kursus', PaketKursusController::class);
+    Route::resource('transaksi', TransaksiController::class);
+    Route::resource('rating', AdminRatingController::class);
 });

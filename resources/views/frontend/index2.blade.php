@@ -2,42 +2,41 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Bukti Pembayaran</title>
-  <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.css') }}">
-  <style>
-    body {
-      background: #f4f4f4;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      font-family: 'Poppins', sans-serif;
-    }
-    .struk {
-      background: white;
-      padding: 32px;
-      border-radius: 18px;
-      width: 420px;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.15);
-      text-align: center;
-    }
-    .struk h2 {
-      margin-bottom: 16px;
-    }
-    .btn-back {
-      margin-top: 20px;
-    }
-  </style>
+  <title>Login Admin</title>
+  <link rel="stylesheet" href="{{ asset('css/style1.css') }}?v={{ time() }}">
 </head>
 <body>
+  <div class="container">
 
-<div class="struk">
-  <h2>Bukti Pembayaran</h2>
-  <p>Pembayaran telah berhasil.</p>
-  <p>Terima kasih telah mempercayai layanan kami.</p>
+    <div class="forms">
 
-  <a href="{{ route('frontend.dashboard') }}" class="btn btn-primary btn-back">Kembali ke Beranda</a>
-</div>
+      <!-- =============== LOGIN FORM ONLY =============== -->
+      <div class="form-content login">
+        <h2 class="title">Login Admin</h2>
 
+        <form action="{{ route('admin.login') }}" method="POST">
+          @csrf
+
+          <div class="input-box">
+            <input type="text" name="username" placeholder="Username" required>
+          </div>
+
+          <div class="input-box">
+            <input type="email" name="email" placeholder="Email" required>
+          </div>
+
+          <div class="input-box">
+            <input type="password" name="password" placeholder="Password" required>
+          </div>
+
+          <div class="input-box button">
+            <input type="submit" value="Login">
+          </div>
+
+        </form>
+      </div>
+
+    </div>
+  </div>
 </body>
 </html>

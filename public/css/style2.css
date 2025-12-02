@@ -266,6 +266,11 @@ section {
   flex-wrap: wrap; /* supaya responsif waktu layar kecil */
 }
 
+.social-group a {
+  text-decoration: none;
+}
+
+
 
 /*KOTAK BLUR PER SECTION*/
 .section-box {

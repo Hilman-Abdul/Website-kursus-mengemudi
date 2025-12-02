@@ -1,0 +1,85 @@
+/* Background halaman */
+body {
+    margin: 0;
+    background: linear-gradient(to bottom, #C3F0FD 28%, #23A1C4 72%);
+    min-height: 100vh;
+}
+
+/* Wrapper */
+.profile-wrapper {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* Card */
+.custom-card {
+    background: #ffffffd8 !important;
+    backdrop-filter: blur(6px) !important;
+    border-radius: 18px !important;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15) !important;
+    padding: 25px !important;
+}
+
+/* Grid dua kolom */
+.profile-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+/* Foto */
+.profile-photo {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+}
+
+/* Input */
+.profile-wrapper .form-control {
+    height: 42px !important;
+    border-radius: 10px !important;
+}
+
+/* Tombol */
+.custom-primary {
+    background: #23A1C4 !important;
+    border-radius: 10px !important;
+    border: none !important;
+    height: 45px !important;
+}
+
+.custom-danger {
+    background: #dc3545 !important;
+    border-radius: 10px !important;
+    height: 45px !important;
+}
+
+/* Layout foto kiri - form kanan */
+.profile-flex {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+}
+
+/* Kolom kiri */
+.profile-left {
+    width: 180px;
+}
+
+/* Kolom kanan */
+.profile-right {
+    flex: 1;
+}
+
+/* Foto */
+.profile-photo {
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* Agar form tetap rapi */
+.profile-right .form-control {
+    height: 42px !important;
+    border-radius: 10px !important;
+}
+
