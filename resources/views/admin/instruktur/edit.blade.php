@@ -6,42 +6,43 @@
 
 <h2 class="text-white mb-4">Edit Instruktur</h2>
 
-<div class="card p-4" style="background:#1f2937; color:white;">
-    <form>
+<form action="{{ route('instruktur.update', $instruktur->id) }}" method="POST">
+@csrf
+@method('PUT')
 
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label>Nama Instruktur</label>
-                <input value="Andi Pratama" type="text" class="form-control">
-            </div>
+<div class="row">
 
-            <div class="col-md-6 mb-3">
-                <label>No Telepon</label>
-                <input value="08123456789" type="text" class="form-control">
-            </div>
+    <div class="col-md-6 mb-3">
+        <label>Nama</label>
+        <input value="{{ $instruktur->nama }}" type="text" class="form-control" name="nama">
+    </div>
 
-            <div class="col-md-6 mb-3">
-                <label>Jenis Kelamin</label>
-                <select class="form-control">
-                    <option>Laki-laki</option>
-                    <option>Perempuan</option>
-                </select>
-            </div>
+    <div class="col-md-6 mb-3">
+        <label>No HP</label>
+        <input value="{{ $instruktur->no_hp }}" type="text" class="form-control" name="no_hp">
+    </div>
 
-            <div class="col-md-6 mb-3">
-                <label>keahlian</label>
-                <select class="form-control">
-                    <option>Manual</option>
-                    <option>Manual</option>
-                </select>
-            </div>
+    <div class="col-md-6 mb-3">
+        <label>Jenis Kelamin</label>
+        <select name="jenis_kelamin" class="form-control">
+            <option value="Laki-laki" {{ $instruktur->jk == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
+            <option value="Perempuan" {{ $instruktur->jk == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
+        </select>
+    </div>
 
-        </div>
+    <div class="col-md-6 mb-3">
+        <label>Keahlian</label>
+        <select name="keahlian" class="form-control">
+            <option value="Mobil Manual" {{ $instruktur->keahlian == 'Mobil Manual' ? 'selected' : '' }}>Mobil Manual</option>
+            <option value="Mobil Matic" {{ $instruktur->keahlian == 'Mobil Matic' ? 'selected' : '' }}>Mobil Matic</option>
+        </select>
+    </div>
 
-        <button class="btn btn-success mt-3">Update</button>
-        <a href="/instruktur" class="btn btn-secondary mt-3">Kembali</a>
-
-    </form>
 </div>
+
+<button class="btn btn-success">Update</button>
+<a href="{{ route('instruktur.index') }}" class="btn btn-secondary">Kembali</a>
+
+</form>
 
 @endsection

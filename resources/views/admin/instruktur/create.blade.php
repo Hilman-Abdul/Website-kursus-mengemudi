@@ -6,45 +6,44 @@
 
 <h2 class="text-white mb-4">Tambah Instruktur</h2>
 
-<div class="card p-4" style="background:#1f2937; color:white;">
-    <form>
+<form action="{{ route('instruktur.store') }}" method="POST">
+@csrf
 
-        <div class="row">
+<div class="row">
 
-            <div class="col-md-6 mb-3">
-                <label>Nama Instruktur</label>
-                <input type="text" class="form-control" placeholder="Masukkan nama instruktur">
-            </div>
+    <div class="col-md-6 mb-3">
+        <label>Nama</label>
+        <input type="text" name="nama" class="form-control">
+    </div>
 
-            <div class="col-md-6 mb-3">
-                <label>No Telepon</label>
-                <input type="text" class="form-control" placeholder="Masukkan no telepon">
-            </div>
+    <div class="col-md-6 mb-3">
+        <label>No HP</label>
+        <input type="text" name="no_hp" class="form-control">
+    </div>
 
-            <div class="col-md-6 mb-3">
-                <label>Jenis Kelamin</label>
-                <select class="form-control">
-                    <option value="">-- pilih --</option>
-                    <option>Laki-laki</option>
-                    <option>Perempuan</option>
-                </select>
-            </div>
+    <div class="col-md-6 mb-3">
+        <label>Jenis Kelamin</label>
+        <select name="jenis_kelamin" class="form-control">
+            <option value="">-- Pilih --</option>
+            <option value="Laki-laki">Laki-laki</option>
+            <option value="Perempuan">Perempuan</option>
+        </select>
+    </div>
 
-            <div class="col-md-6 mb-3">
-                <label>keahlian</label>
-                <select class="form-control">
-                    <option value="">-- pilih --</option>
-                    <option>Matic</option>
-                    <option>Manual</option>
-                </select>
-            </div>
+    <div class="col-md-6 mb-3">
+        <label>Keahlian</label>
+        <select name="keahlian" class="form-control">
+            <option value="">-- Pilih --</option>
+            <option value="Mobil Manual">Mobil Manual</option>
+            <option value="Mobil Matic">Mobil Matic</option>
+        </select>
+    </div>
 
-        </div>
-
-        <button class="btn btn-primary mt-3">Simpan</button>
-        <a href="/instruktur" class="btn btn-secondary mt-3">Kembali</a>
-
-    </form>
 </div>
+
+<button class="btn btn-primary">Simpan</button>
+<a href="{{ route('instruktur.index') }}" class="btn btn-secondary">Kembali</a>
+
+</form>
 
 @endsection

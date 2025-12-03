@@ -24,24 +24,30 @@
         </tr>
     </thead>
     <tbody>
+        @foreach ($jadwal as $j)
         <tr>
-            <td>{{ $j['id'] }}</td>
-            <td>{{ $j['nama'] }}</td>
-            <td>{{ $j['paket'] }}</td>
-            <td>{{ $j['jam'] }}</td>
-            <td>{{ $j['tanggal'] }}</td>
+            <td>{{ $j->id }}</td>
+            <td>{{ $j->nama }}</td>
+            <td>{{ $j->nama_paket }}</td>
+            <td>{{ $j->jam }}</td>
+            <td>{{ $j->tanggal }}</td>
             <td>
-                <a href="{{ route('jadwal.edit', $item->id) }}" class="btn btn-warning btn-sm">
-                    Edit
-                </a>
-                <a href="{{ route('jadwal.destroy', $item->id) }}" class="btn btn-danger btn-sm">
-                    Hapus
-                </a>
+                <a href="{{ route('jadwal.edit', $j->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                
+                <form action="{{ route('jadwal.destroy', $j->id) }}" 
+                      method="POST" 
+                      style="display:inline">
+                    @csrf
+                    @method('DELETE')
+                    <button onclick="return confirm('Yakin hapus?')" 
+                            class="btn btn-danger btn-sm">
+                        Hapus
+                    </button>
+                </form>
             </td>
         </tr>
         @endforeach
-
     </tbody>
 </table>
-
 @endsection
+

@@ -7,7 +7,7 @@
 <h2 class="text-white mb-4">Data Instruktur</h2>
 
 <div class="mb-3">
-    <a href="/instruktur/create" class="btn btn-primary">
+    <a href="{{ route('instruktur.create') }}" class="btn btn-primary">
         <i class="bi bi-plus-circle"></i> Tambah Instruktur
     </a>
 </div>
@@ -16,37 +16,36 @@
     <thead>
         <tr>
             <th>ID</th>
-            <th>Nama Instruktur</th>
-            <th>No Telepon</th>
+            <th>Nama</th>
+            <th>No HP</th>
             <th>Jenis Kelamin</th>
             <th>Keahlian</th>
-            <th style="width:150px;">Aksi</th>
+            <th>Aksi</th>
         </tr>
     </thead>
+
     <tbody>
-
-        {{-- Dummy data frontend --}}
-        @php
-            $instruktur = [
-                ['id'=>1,'nama'=>'Andi Pratama','no_tlp'=>'08123456789','jk'=>'Laki-laki','keahlian'=>'manual'],
-                ['id'=>2,'nama'=>'Siti Rahma','no_tlp'=>'082233445566','jk'=>'Perempuan','keahlian'=>'matic'],
-            ];
-        @endphp
-
-        @foreach ($instruktur as $i)
+        @foreach ($instrukturs as $i)
         <tr>
-            <td>{{ $i['id'] }}</td>
-            <td>{{ $i['nama'] }}</td>
-            <td>{{ $i['no_tlp'] }}</td>
-            <td>{{ $i['jk'] }}</td>
-            <td>{{ $i['keahlian'] }}</td>
+            <td>{{ $i->id }}</td>
+            <td>{{ $i->nama }}</td>
+            <td>{{ $i->no_hp }}</td>
+            <td>{{ $i->jenis_kelamin }}</td>
+            <td>{{ $i->keahlian }}</td>
+
             <td>
-                <a href="/instruktur/{{ $i['id'] }}/edit" class="btn btn-warning btn-sm">Edit</a>
-                <a href="/instruktur/{{ $i['id'] }}/delete" class="btn btn-danger btn-sm">Hapus</a>
+                <a href="{{ route('instruktur.edit', $i->id) }}" class="btn btn-warning btn-sm">Edit</a>
+
+                <form action="{{ route('instruktur.destroy', $i->id) }}" method="POST" style="display:inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button onclick="return confirm('Yakin hapus?')" class="btn btn-danger btn-sm">
+                        Hapus
+                    </button>
+                </form>
             </td>
         </tr>
         @endforeach
-
     </tbody>
 </table>
 

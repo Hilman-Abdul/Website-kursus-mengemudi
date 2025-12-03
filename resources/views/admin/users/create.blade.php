@@ -1,64 +1,53 @@
 @extends('admin.layout')
 
-@section('title', 'Tambah User')
-
 @section('content')
-
 <h2 class="text-white mb-4">Tambah User</h2>
 
-<div class="card p-4" style="background:#1f2937; color:white;">
-    <form>
+<form action="{{ route('users.store') }}" method="POST">
+    @csrf
 
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label>Nama Lengkap</label>
-                <input type="text" class="form-control" placeholder="Masukkan nama">
-            </div>
+    <div class="mb-3">
+        <label class="form-label text-white">Nama</label>
+        <input type="text" name="nama" class="form-control" required>
+    </div>
 
-            <div class="col-md-6 mb-3">
-                <label>Username</label>
-                <input type="text" class="form-control" placeholder="Masukkan username">
-            </div>
+    <div class="mb-3">
+        <label class="form-label text-white">Username</label>
+        <input type="text" name="username" class="form-control" required>
+    </div>
 
-            <div class="col-md-6 mb-3">
-                <label>Password</label>
-                <input type="password" class="form-control" placeholder="Masukkan password">
-            </div>
+    <div class="mb-3">
+        <label class="form-label text-white">Email</label>
+        <input type="email" name="email" class="form-control" required>
+    </div>
 
-            <div class="col-md-6 mb-3">
-                <label>No Telepon</label>
-                <input type="text" class="form-control" placeholder="Masukkan no telepon">
-            </div>
+    <div class="mb-3">
+        <label class="form-label text-white">Password</label>
+        <input type="password" name="password" class="form-control" required>
+    </div>
 
-            <div class="col-md-6 mb-3">
-                <label>Jenis Kelamin</label>
-                <select class="form-control">
-                    <option value="">-- pilih --</option>
-                    <option>Laki-laki</option>
-                    <option>Perempuan</option>
-                </select>
-            </div>
+    {{-- Tambahkan NO HP --}}
+    <div class="mb-3">
+        <label class="form-label text-white">No HP</label>
+        <input type="text" name="no_hp" class="form-control">
+    </div>
 
-            <div class="col-md-6 mb-3">
-                <label>NIK</label>
-                <input type="text" class="form-control" placeholder="Masukkan NIK">
-            </div>
+    {{-- Tambahkan Jenis Kelamin --}}
+    <div class="mb-3">
+        <label class="form-label text-white">Jenis Kelamin</label>
+        <select name="jenis_kelamin" class="form-control">
+            <option value="">-- Pilih --</option>
+            <option value="Laki-laki">Laki-laki</option>
+            <option value="Perempuan">Perempuan</option>
+        </select>
+    </div>
 
-            <div class="col-md-6 mb-3">
-                <label>Email</label>
-                <input type="email" class="form-control" placeholder="Masukkan email">
-            </div>
+    {{-- Tambahkan Alamat --}}
+    <div class="mb-3">
+        <label class="form-label text-white">Alamat</label>
+        <input type="text" name="alamat" class="form-control">
+    </div>
 
-            <div class="col-md-6 mb-3">
-                <label>Alamat</label>
-                <input type="text" class="form-control" placeholder="Masukkan alamat">
-            </div>
-        </div>
-
-        <button class="btn btn-primary mt-3">Simpan</button>
-        <a href="/users" class="btn btn-secondary mt-3">Kembali</a>
-
-    </form>
-</div>
-
+    <button class="btn btn-primary">Simpan</button>
+</form>
 @endsection
