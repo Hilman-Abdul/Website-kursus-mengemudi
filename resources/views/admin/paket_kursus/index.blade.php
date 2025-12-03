@@ -16,10 +16,10 @@
     <thead>
         <tr>
             <th>ID</th>
-            <th>Nama</th>
+            <th>User ID</th>
             <th>Nama Paket</th>
             <th>Harga Paket</th>
-            <th>Waktu</th>
+            <th>Waktu Pertemuan</th> <!-- Diubah labelnya -->
             <th style="width:150px;">Aksi</th>
         </tr>
     </thead>
@@ -27,10 +27,10 @@
         @foreach($paket as $p)
         <tr>
             <td>{{ $p->id }}</td>
-            <td>{{ $p->nama }}</td>
+            <td>{{ $p->user_id }}</td>
             <td>{{ $p->nama_paket }}</td>
             <td>{{ $p->harga_paket }}</td>
-            <td>{{ $p->waktu }}</td>
+            <td>{{ $p->waktu_pertemuan }}</td> <!-- FIXED: Panggil kolom yang benar -->
             <td>
                 <a href="{{ route('paket_kursus.edit', $p->id) }}" class="btn btn-warning btn-sm">Edit</a>
 

@@ -16,10 +16,11 @@
     <thead>
         <tr>
             <th>ID</th>
-            <th>Nama User</th>
+            <th>User ID</th>
             <th>Paket</th>
-            <th>Jam</th>
-            <th>Tanggal</th>
+            <th>Gender</th>
+            <th>Tanggal 1</th>
+            <th>Jam Mulai 1</th>
             <th style="width:150px;">Aksi</th>
         </tr>
     </thead>
@@ -27,10 +28,11 @@
         @foreach ($jadwal as $j)
         <tr>
             <td>{{ $j->id }}</td>
-            <td>{{ $j->nama }}</td>
-            <td>{{ $j->nama_paket }}</td>
-            <td>{{ $j->jam }}</td>
-            <td>{{ $j->tanggal }}</td>
+            <td>{{ $j->user_id }}</td>
+            <td>{{ $j->jenis_paket }}</td>
+            <td>{{ $j->gender_user }}</td>
+            <td>{{ $j->tanggal1 }}</td>
+            <td>{{ $j->jam_mulai1 }}</td>
             <td>
                 <a href="{{ route('jadwal.edit', $j->id) }}" class="btn btn-warning btn-sm">Edit</a>
                 
@@ -49,5 +51,4 @@
         @endforeach
     </tbody>
 </table>
-@endsection
-
+@endsection 

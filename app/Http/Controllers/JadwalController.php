@@ -20,21 +20,37 @@ class JadwalController extends Controller
         return view('admin.jadwal.create');
     }
 
-    // Proses create jadwal
+    // Proses create jadwal (FIXED)
     public function store(Request $request)
     {
+        // Validasi disesuaikan dengan kolom di Migration
         $request->validate([
-            'nama' => 'required',
-            'nama_paket' => 'required',
-            'jam' => 'required',      // waktu
-            'tanggal' => 'required|date',  // tanggal
+            'user_id'       => 'required|integer', // Asumsi kamu memasukkan ID User
+            'tanggal1'      => 'required|date',
+            'jam_mulai1'    => 'required',
+            'jam_selesai1'  => 'required',
+            'jenis_paket'   => 'required|in:manual,matic',
+            'gender_user'   => 'required|in:L,P',
+            
+            // Kolom nullable/opsional
+            'tanggal2'      => 'nullable|date',
+            'jam_mulai2'    => 'nullable',
+            'jam_selesai2'  => 'nullable',
         ]);
 
+        // Field yang disimpan HARUS sesuai dengan kolom di Migration
         Jadwal::create([
-            'nama' => $request->nama,
-            'nama_paket' => $request->nama_paket,
-            'jam' => $request->jam,
-            'tanggal' => $request->tanggal,
+            'user_id'       => $request->user_id,
+            'tanggal1'      => $request->tanggal1,
+            'jam_mulai1'    => $request->jam_mulai1,
+            'jam_selesai1'  => $request->jam_selesai1,
+            'jenis_paket'   => $request->jenis_paket,
+            'gender_user'   => $request->gender_user,
+            
+            // Optional
+            'tanggal2'      => $request->tanggal2,
+            'jam_mulai2'    => $request->jam_mulai2,
+            'jam_selesai2'  => $request->jam_selesai2,
         ]);
 
         return redirect()->route('jadwal.index')
@@ -48,23 +64,38 @@ class JadwalController extends Controller
         return view('admin.jadwal.edit', compact('jadwal'));
     }
 
-    // Proses update jadwal
+    // Proses update jadwal (FIXED)
     public function update(Request $request, $id)
     {
+        // Validasi disesuaikan
         $request->validate([
-            'nama' => 'required',
-            'nama_paket' => 'required',
-            'jam' => 'required',
-            'tanggal' => 'required|date',
+            'user_id'       => 'required|integer',
+            'tanggal1'      => 'required|date',
+            'jam_mulai1'    => 'required',
+            'jam_selesai1'  => 'required',
+            'jenis_paket'   => 'required|in:manual,matic',
+            'gender_user'   => 'required|in:L,P',
+
+            // Kolom nullable/opsional
+            'tanggal2'      => 'nullable|date',
+            'jam_mulai2'    => 'nullable',
+            'jam_selesai2'  => 'nullable',
         ]);
 
         $jadwal = Jadwal::findOrFail($id);
 
         $jadwal->update([
-            'nama' => $request->nama,
-            'nama_paket' => $request->nama_paket,
-            'jam' => $request->jam,
-            'tanggal' => $request->tanggal,
+            'user_id'       => $request->user_id,
+            'tanggal1'      => $request->tanggal1,
+            'jam_mulai1'    => $request->jam_mulai1,
+            'jam_selesai1'  => $request->jam_selesai1,
+            'jenis_paket'   => $request->jenis_paket,
+            'gender_user'   => $request->gender_user,
+            
+            // Optional
+            'tanggal2'      => $request->tanggal2,
+            'jam_mulai2'    => $request->jam_mulai2,
+            'jam_selesai2'  => $request->jam_selesai2,
         ]);
 
         return redirect()->route('jadwal.index')

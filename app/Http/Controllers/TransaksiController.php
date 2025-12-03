@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
+use Carbon\Carbon; // Dipakai untuk mengisi tanggal otomatis
 
 class TransaksiController extends Controller
 {
@@ -23,12 +24,21 @@ class TransaksiController extends Controller
     // Simpan transaksi baru
     public function store(Request $request)
     {
+        // Validasi input
+        $request->validate([
+            'user_id' => 'required|string|max:255', // User ID (sebelumnya 'nama' di form)
+            'nama_paket' => 'required|string|max:255',
+            'harga_paket' => 'required|numeric',
+            'instruktur_id' => 'required|string|max:255', // Instruktur ID (sebelumnya 'instruktur' di form)
+            'metode_pembayaran' => 'required|string|max:255',
+        ]);
+        
         Transaksi::create([
-            'nama' => $request->nama,
+            'user_id' => $request->user_id, // Menggunakan user_id
             'nama_paket' => $request->nama_paket,
             'harga_paket' => $request->harga_paket,
-            'tanggal' => date('Y-m-d'), // otomatis
-            'instruktur' => $request->instruktur,
+            'tanggal' => Carbon::now()->toDateString(), // Menggunakan Carbon untuk tanggal
+            'instruktur_id' => $request->instruktur_id, // Menggunakan instruktur_id
             'metode_pembayaran' => $request->metode_pembayaran,
         ]);
 
@@ -45,13 +55,23 @@ class TransaksiController extends Controller
     // Update transaksi
     public function update(Request $request, $id)
     {
+        // Validasi input
+        $request->validate([
+            'user_id' => 'required|string|max:255',
+            'nama_paket' => 'required|string|max:255',
+            'harga_paket' => 'required|numeric',
+            'instruktur_id' => 'required|string|max:255',
+            'metode_pembayaran' => 'required|string|max:255',
+        ]);
+
         $transaksi = Transaksi::findOrFail($id);
 
         $transaksi->update([
-            'nama' => $request->nama,
+            'user_id' => $request->user_id,
             'nama_paket' => $request->nama_paket,
             'harga_paket' => $request->harga_paket,
-            'instruktur' => $request->instruktur,
+            // Tanggal tidak diupdate di form
+            'instruktur_id' => $request->instruktur_id,
             'metode_pembayaran' => $request->metode_pembayaran,
         ]);
 

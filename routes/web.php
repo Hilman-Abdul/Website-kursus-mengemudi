@@ -117,7 +117,12 @@ Route::prefix('admin')->group(function () {
     Route::resource('instruktur', InstrukturController::class);
     Route::resource('users', UserController::class);
     Route::resource('jadwal', JadwalController::class);  // admin CRUD
-    Route::resource('paket_kursus', PaketKursusController::class);
+    Route::resource('paket_kursus', PaketKursusController::class); // Rute Paket Kursus yang benar
     Route::resource('transaksi', TransaksiController::class);
     Route::resource('rating', AdminRatingController::class);
+    
+    // BLOK BERIKUT DIHAPUS KARENA MENGAKIBATKAN REDUNDANSI DAN AMBIGUITAS ROUTING:
+    // Route::prefix('admin')->group(function () {
+    // Route::resource('paket_kursus', PaketKursusController::class);
+    // });
 });

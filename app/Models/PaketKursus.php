@@ -9,8 +9,10 @@ class PaketKursus extends Model
 {
     use HasFactory;
 
-    protected $table = 'paket_kursus';
+    // Nama tabel sesuai migration kamu
+    protected $table = 'paket_kursus'; 
 
+    // WAJIB: Kolom yang sesuai dengan Migration dan form kamu
     protected $fillable = [
         'user_id',
         'nama_paket',
@@ -18,10 +20,9 @@ class PaketKursus extends Model
         'waktu_pertemuan',
     ];
 
-    // Relasi ke Users
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
+    // Jika kamu ingin relasi ke user:
+    // public function user()
+    // {
+    //     return $this->belongsTo(User::class);
+    // }
 }

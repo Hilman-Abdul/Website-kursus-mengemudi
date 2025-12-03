@@ -2,32 +2,38 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Rating;
+use Illuminate\Http\Request;
 
 class RatingController extends Controller
 {
-    // Halaman rating untuk user
+    /**
+     * Tampilkan daftar semua rating (Admin)
+     * Menggantikan fungsi index() dari resource CRUD
+     */
     public function index()
     {
-        return view('frontend.rating');
+        // Load semua rating, dan ambil data user yang memberikan rating
+        $ratings = Rating::with('user')->latest()->get();
+        return view('admin.rating.index', compact('ratings'));
     }
+    
+    // Karena Admin hanya boleh Hapus (Destroy), kita abaikan create, store, edit, dan update
+    // Tapi kita perlu definisikan metode kosong agar routing resource tidak error
 
-    // Simpan rating dari user
-    public function store(Request $request)
+    public function create() { /* Admin tidak membuat rating */ }
+    public function store(Request $request) { /* Admin tidak menyimpan rating */ }
+    public function show($id) { /* Tidak perlu show tunggal */ }
+    public function edit($id) { /* Admin tidak mengedit rating user */ }
+    public function update(Request $request, $id) { /* Admin tidak mengupdate rating user */ }
+    
+    /**
+     * Hapus rating (Admin)
+     * Menggantikan fungsi destroy() dari resource CRUD
+     */
+    public function destroy($id)
     {
-        $request->validate([
-            'nama' => 'required',
-            'komentar' => 'nullable',
-            'pekerjaan' => 'nullable',
-        ]);
-
-        Rating::create([
-            'nama' => $request->nama,
-            'komentar' => $request->komentar,
-            'pekrjaan' => $request->pekerjaan,
-        ]);
-
-        return redirect()->back()->with('success', 'Rating berhasil dikirim!');
+        Rating::findOrFail($id)->delete();
+        return redirect()->route('rating.index')->with('success', 'Rating berhasil dihapus!');
     }
 }

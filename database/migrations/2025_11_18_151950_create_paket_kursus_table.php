@@ -6,22 +6,19 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up(): void
-    {
-        Schema::create('paket_kursus', function (Blueprint $table) {
-            $table->id();
+ public function up()
+{
+    Schema::create('paket_kursus', function (Blueprint $table) {
+        $table->id();
+        $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+        $table->string('nama_paket');
+        $table->decimal('harga_paket', 15, 2);
+        $table->string('waktu_pertemuan');
+        $table->timestamps();
+    });
+}
 
-            // relasi ke user
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
 
-            // data paket
-            $table->string('nama_paket');
-            $table->integer('harga_paket');
-            $table->string('waktu_pertemuan'); // contoh: "10x60 Menit"
-
-            $table->timestamps();
-        });
-    }
 
     /**
      * Reverse the migrations.

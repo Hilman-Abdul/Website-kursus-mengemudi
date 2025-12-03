@@ -12,10 +12,11 @@ class Rating extends Model
     protected $fillable = [
         'user_id',
         'komentar',
-        'pekerjaan'
+        'pekerjaan' // Ini adalah pekerjaan, bukan nilai rating. Kita asumsikan nilai rating disimpan di kolom lain (misal: 'rating') jika ada.
     ];
 
-    // relasi ke user
+    // Relasi ke User
+    // Asumsi kamu punya Model App\Models\User
     public function user()
     {
         return $this->belongsTo(User::class);
