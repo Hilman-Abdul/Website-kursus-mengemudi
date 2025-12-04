@@ -10,8 +10,11 @@
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
-    <!-- Custom -->
+    <!-- Custom Styles -->
     <link rel="stylesheet" href="{{ asset('css/style_admin.css') }}">
+    
+    {{-- Custom Styles dari Halaman Child --}}
+    @yield('styles') 
 </head>
 
 <body>
@@ -35,9 +38,59 @@
         </a>
 
         <div class="ms-auto d-flex align-items-center">
-            <a href="#" class="text-white me-4 fs-4">
-                <i class="bi bi-bell"></i>
-            </a>
+            
+            {{-- START: KOMPONEN NOTIFIKASI BARU --}}
+            <div class="dropdown me-4">
+                {{-- Tombol Lonceng (Dropdown Trigger) --}}
+                <button class="btn btn-dark p-2 text-white position-relative" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="background: transparent; border: none;">
+                    {{-- Ikon Lonceng --}}
+                    <i class="bi bi-bell-fill" style="font-size: 1.5rem;"></i>
+                    
+                    {{-- Badge Notifikasi Baru (Data dummy) --}}
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        2
+                        <span class="visually-hidden">unread notifications</span>
+                    </span>
+                </button>
+                
+                {{-- Menu Dropdown Notifikasi --}}
+                <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" style="width: 300px;">
+                    <li class="dropdown-header">Notifikasi Terbaru (2)</li>
+                    <li><hr class="dropdown-divider"></li>
+                    
+                    {{-- Notifikasi 1: User Baru -> Ke CRUD Peserta --}}
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="{{ route('users.index') }}">
+                            <i class="bi bi-person-plus-fill me-3 text-success"></i>
+                            <div>
+                                <div class="fw-bold">Ada User Baru!</div>
+                                <small class="text-muted">1 jam yang lalu</small>
+                            </div>
+                        </a>
+                    </li>
+                    
+                    {{-- Notifikasi 2: Transaksi Baru -> Ke CRUD Transaksi --}}
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="{{ route('transaksi.index') }}">
+                            <i class="bi bi-cash-stack me-3 text-info"></i>
+                            <div>
+                                <div class="fw-bold">Ada Transaksi Baru!</div>
+                                <small class="text-muted">30 menit yang lalu</small>
+                            </div>
+                        </a>
+                    </li>
+                    
+                    <li><hr class="dropdown-divider"></li>
+                    
+                    {{-- Link ke Halaman Notifikasi Lengkap --}}
+                    <li>
+                        <a class="dropdown-item text-center text-primary" href="{{ route('notifications.index') }}">
+                            Lihat Semua Notifikasi
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            {{-- END: KOMPONEN NOTIFIKASI BARU --}}
 
             <img src="{{ asset('images/user.jpg') }}" class="rounded-circle" width="40" height="40">
         </div>
@@ -47,6 +100,9 @@
     <div class="content p-4">
         @yield('content')
     </div>
+
+    <!-- Bootstrap JS (untuk fungsionalitas Dropdown) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
