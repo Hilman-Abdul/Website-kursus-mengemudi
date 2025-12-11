@@ -164,7 +164,7 @@ function nextMonth() {
 }
 
 /* =======================================================
-   SETTIME UNTUK JAM 3 JAM
+   SETTIME UNTUK JAM 6 JAM
 ======================================================= */
 function setTime(index) {
 
@@ -177,6 +177,7 @@ function setTime(index) {
 
     let [jam, menit] = start.split(":").map(Number);
 
+    // menit harus 00
     if (menit !== 0) {
         alert("Menit harus 00");
         inputStart.value = "";
@@ -184,16 +185,20 @@ function setTime(index) {
         return;
     }
 
-    if (jam < 6 || jam > 13) {
-        alert("Jam mulai antara 06:00 sampai 13:00");
+    // jam mulai 08 - 12
+    if (jam < 8 || jam > 12) {
+        alert("Jam mulai harus antara 08:00 sampai 12:00");
         inputStart.value = "";
         output.innerHTML = "";
         return;
     }
 
-    let end = jam + 3;
-    if (end > 16) {
-        alert("Jam selesai tidak boleh lebih dari 16:00");
+    // durasi 6 jam
+    let end = jam + 6;
+
+    // jam selesai maksimal 18:00
+    if (end > 18) {
+        alert("Jam selesai tidak boleh lebih dari 18:00");
         inputStart.value = "";
         output.innerHTML = "";
         return;
@@ -206,6 +211,35 @@ function setTime(index) {
     inputEnd.value   = endFormatted;
 
     output.innerHTML = `<b>${startFormatted} - ${endFormatted}</b>`;
+}
+
+/* =======================================================
+   UPDATE PERTEMUAN KE FORM
+======================================================= */
+function updatePertemuan() {
+
+    const t1 = document.getElementById("tanggal1").value;
+    const t2 = document.getElementById("tanggal2").value;
+
+    const jm1 = document.getElementById("jamMulai1").value;
+    const jm2 = document.getElementById("jamMulai2").value;
+
+    const p1 = document.getElementById("pertemuan1");
+    const p2 = document.getElementById("pertemuan2");
+
+    // Reset dulu
+    p1.value = "";
+    p2.value = "";
+
+    // Jika tanggal + jam hari 1 lengkap → isi pertemuan_1
+    if (t1 && jm1) {
+        p1.value = `${t1} ${jm1}:00`;
+    }
+
+    // Jika tanggal + jam hari 2 lengkap → isi pertemuan_2
+    if (t2 && jm2) {
+        p2.value = `${t2} ${jm2}:00`;
+    }
 }
 
 /* =======================================================

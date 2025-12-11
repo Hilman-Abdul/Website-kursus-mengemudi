@@ -232,23 +232,20 @@ section {
 .icon:active {
  transform: translateY(-1px) scale(0.98);
 }
+
 .facebook:hover {
- background-color: #1877f2;
- Box-shadow: 0.0.0.15px #1877f2, 0.0.0.30px #1877f2;
+  background-color: #1877f2;
+  box-shadow: 0 8px 30px rgba(24, 119, 242, 0.5);
 }
+
 .instagram:hover {
- background-color: #E1306C;
- box-shadow: 0.0.0.15px #E1306C, 0.0.0.30px #E1306C;  
+  background: linear-gradient(45deg, #405DE6, #5851DB, #C13584, #E1306C, #FD1D1D);
+  box-shadow: 0 8px 30px rgba(225, 48, 108, 0.5);
 }
 
-.twitter:hover {
- background-color: #1DA1F2;
- box-shadow: 0.0.0.15px #1DA1F2, 0.0.0.30px #1DA1F2;
-}
-
-.youtube:hover {
- background-color: #FF0000;
- box-shadow: 0.0.0.15px #FF0000, 0.0.0.30px #FF0000;
+.whatsapp:hover {
+  background-color: #25D366;
+  box-shadow: 0 8px 30px rgba(37, 211, 102, 0.5);
 }
 
 .map-container {

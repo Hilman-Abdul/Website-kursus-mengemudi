@@ -1,10 +1,17 @@
+/* ============================
+   GLOBAL
+============================ */
 body {
-    background: linear-gradient(to bottom,#C3F0FD 28%, #23A1C4 72%);
+    background: linear-gradient(to bottom, #C3F0FD 28%, #23A1C4 72%);
     font-family: 'Poppins', sans-serif;
     overflow-x: hidden;
+    margin: 0;
+    padding: 0;
 }
 
-/* topbar */
+/* ============================
+   TOPBAR
+============================ */
 .topbar {
     position: fixed;
     top: 0;
@@ -14,30 +21,21 @@ body {
     z-index: 1000;
 }
 
-/* geser konten ke bawah biar tidak ketutup topbar */
-.content {
-    margin-top: 70px;
-    padding: 20px;
-}
-
-
-/* SIDEBAR */
+/* ============================
+   SIDEBAR (FIXED & NON-COLLAPSIBLE)
+============================ */
 .sidebar {
+    position: fixed;
+    top: 60px;
+    left: 0;
     width: 250px;
     min-height: 100vh;
     background: #0a0e22;
-    position: fixed;
-    top: 60px; 
-    left: 0;
     padding-top: 20px;
-    transition: 0.3s;
     z-index: 10;
 }
 
-.sidebar.collapsed {
-    width: 70px;
-}
-
+/* Sidebar link */
 .sidebar a {
     display: flex;
     align-items: center;
@@ -49,20 +47,21 @@ body {
     transition: 0.3s;
 }
 
-.sidebar.collapsed a span {
-    display: none;
-}
-
+/* ============================
+   CONTENT AREA
+============================ */
 .content {
-    margin-left: 260px;
+    margin-top: 70px;
+    margin-left: 250px; /* tetap mengikuti sidebar */
     padding: 30px;
+    min-height: 100vh;
     transition: 0.3s;
 }
 
-.content.collapsed {
-    margin-left: 80px;
-}
 
+/* ============================
+   DASHBOARD CARD
+============================ */
 .card-box {
     background: #b7e7ff;
     border-radius: 12px;
