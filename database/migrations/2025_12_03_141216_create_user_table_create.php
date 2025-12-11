@@ -9,21 +9,20 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('instrukturs', function (Blueprint $table) {
+        Schema::create('user_table_create', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->string('no_hp');
-            $table->enum('keahlian',['manual','matic']);
-            $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan']);
             $table->timestamps();
         });
     }
-    
-    public function down()
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
     {
-        Schema::dropIfExists('instrukturs');
+        Schema::dropIfExists('user_table_create');
     }
-    
 };

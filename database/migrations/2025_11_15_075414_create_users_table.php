@@ -18,7 +18,7 @@ return new class extends Migration
         $table->string('email')->unique();
         $table->string('password')->nullable(); // karena peserta mungkin belum login
         $table->string('no_hp')->nullable();
-        $table->enum('jenis_kelamin', ['laki-laki', 'perempuan'])->nullable();
+        $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan'])->nullable();
         $table->string('alamat')->nullable();
         $table->string('nik')->nullable();
         $table->timestamps();

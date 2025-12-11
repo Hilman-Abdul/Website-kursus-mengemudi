@@ -13,23 +13,14 @@ return new class extends Migration
 
             // Relasi User
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-
-            // Pertemuan 1
             $table->date('tanggal1');
             $table->time('jam_mulai1');
             $table->time('jam_selesai1');
-
-            // Pertemuan 2 (optional)
             $table->date('tanggal2')->nullable();
             $table->time('jam_mulai2')->nullable();
             $table->time('jam_selesai2')->nullable();
-
-            // Gender user (L / P)
             $table->enum('gender_user', ['L', 'P'])->index();
-
-            // Jenis paket (manual / matic)
             $table->enum('jenis_paket', ['manual', 'matic'])->index();
-
             $table->timestamps();
         });
     }

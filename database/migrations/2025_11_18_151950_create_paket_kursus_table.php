@@ -11,21 +11,19 @@ return new class extends Migration
         Schema::create('paket_kursus', function (Blueprint $table) {
             $table->id();
 
-            // relasi ke user
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
 
-            // data paket
             $table->string('nama_paket');
             $table->integer('harga_paket');
-            $table->string('waktu_pertemuan'); // contoh: "10x60 Menit"
+            $table->string('waktu_pertemuan');
+
+            // TAMBAHKAN INI
+            $table->string('jenis_paket'); // manual / matic
 
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('paket_kursus');
