@@ -12,12 +12,26 @@ class UserJadwalController extends Controller
     // Tampilkan halaman pilih jadwal
     public function userIndex()
     {
-        return view('frontend.jadwal');
+        $paket = session('paket');
+
+        if (!$paket) {
+            return redirect()->route('frontend.paket')
+                ->with('error', 'Silakan pilih paket terlebih dahulu.');
+        }
+
+        return view('frontend.jadwal', compact('paket'));
     }
 
-    // SIMPAN JADWAL USER (sesuai rute: jadwal.store)
+    // SIMPAN JADWAL USER
     public function pilihJadwal(Request $req)
     {
+        $paket = session('paket');
+
+        if (!$paket) {
+            return redirect()->route('frontend.paket')
+                ->with('error', 'Anda belum memilih paket.');
+        }
+
         $validator = Validator::make($req->all(), [
             'tanggal1'     => 'required|date',
             'jam_mulai1'   => 'required|date_format:H:i',
@@ -26,13 +40,9 @@ class UserJadwalController extends Controller
             'tanggal2'     => 'nullable|date',
             'jam_mulai2'   => 'nullable|date_format:H:i',
             'jam_selesai2' => 'nullable|date_format:H:i|after:jam_mulai2',
-
-            'jenis_paket'  => 'required|in:manual,matic',
         ]);
 
-        // Custom validation
         $validator->after(function ($v) use ($req) {
-
             if ($req->tanggal2 && ($req->tanggal2 < $req->tanggal1)) {
                 $v->errors()->add('tanggal2', 'Tanggal pertemuan ke-2 tidak boleh lebih awal dari pertemuan pertama.');
             }
@@ -48,7 +58,7 @@ class UserJadwalController extends Controller
 
         $user = Auth::user();
 
-        Jadwal::create([
+        $jadwal = Jadwal::create([
             'user_id'      => $user->id,
 
             'tanggal1'     => $req->tanggal1,
@@ -59,13 +69,12 @@ class UserJadwalController extends Controller
             'jam_mulai2'   => $req->jam_mulai2,
             'jam_selesai2' => $req->jam_selesai2,
 
-            'gender_user'  => ($user->jenis_kelamin === 'laki-laki') ? 'L' : 'P',
-            'jenis_paket'  => $req->jenis_paket,
+            'gender_user'  => ($user->jenis_kelamin === 'Laki-laki') ? 'L' : 'P',
+            'jenis_paket'  => $paket['jenis_paket'], // ← AMBIL DARI SESSION
         ]);
 
-        return redirect()
-            ->route('frontend.transaksi')
-            ->with('success', 'Jadwal berhasil disimpan.');
+       return redirect()->route('frontend.transaksi', ['jadwal_id' => $jadwal->id]);
+
     }
 
     // API tanggal terbooking

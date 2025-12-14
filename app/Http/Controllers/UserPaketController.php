@@ -10,23 +10,38 @@ class UserPaketController extends Controller
 {
     public function pilihPaket(Request $request)
     {
-        // Hapus paket lama jika ada (agar tidak double)
-        PaketKursus::where('user_id', Auth::id())->delete();
-
-        // Simpan paket yang dipilih user
-        $paket = PaketKursus::create([
-            'user_id' => Auth::id(),
-            'nama_paket' => $request->nama_paket,
-            'harga_paket' => $request->harga,
-            'waktu_pertemuan' => $request->waktu ?? '-'
+        // VALIDASI
+        $request->validate([
+            'nama_paket' => 'required',
+            'waktu' => 'required',
+            'harga' => 'required|numeric',
+            'jenis_paket' => 'required|in:manual,matic',
         ]);
 
-        return redirect()->route('jadwal.user');
+        // HAPUS paket lama user (agar tidak double)
+        PaketKursus::where('user_id', Auth::id())->delete();
+
+        // SIMPAN paket baru ke database
+        $paket = PaketKursus::create([
+            'user_id'        => Auth::id(),
+            'nama_paket'     => $request->nama_paket,
+            'harga_paket'    => $request->harga,
+            'jenis_paket'    => $request->jenis_paket,
+            'waktu_pertemuan'=> $request->waktu,
+        ]);
+
+        // SIMPAN KE SESSION
+        session(['paket' => $paket->toArray()]);
+
+        return redirect()->route('jadwal.user')
+            ->with('success', 'Silakan pilih jadwal.');
     }
 
     public function batal()
     {
         PaketKursus::where('user_id', Auth::id())->delete();
+        session()->forget('paket');
+
         return redirect()->route('frontend.dashboard');
     }
 }

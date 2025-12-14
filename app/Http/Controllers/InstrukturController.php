@@ -27,7 +27,7 @@ class InstrukturController extends Controller
             'nama' => 'required',
             'no_hp' => 'required',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
-            'keahlian' => 'required|in:Mobil Manual,Mobil Matic',
+            'keahlian' => 'required|in:Manual,Matic',
         ]);
 
         Instruktur::create([
@@ -37,7 +37,7 @@ class InstrukturController extends Controller
             'keahlian' => $request->keahlian,
         ]);
 
-        return redirect()->route('instruktur.index')
+        return redirect()->route('admin.instruktur.index')
                          ->with('success', 'Instruktur berhasil ditambahkan!');
     }
 
@@ -55,7 +55,7 @@ class InstrukturController extends Controller
             'nama' => 'required',
             'no_hp' => 'required',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
-            'keahlian' => 'required|in:Mobil Manual,Mobil Matic',
+            'keahlian' => 'required|in:Manual,Matic',
         ]);
 
         $instruktur = Instruktur::findOrFail($id);
@@ -67,7 +67,7 @@ class InstrukturController extends Controller
             'keahlian' => $request->keahlian,
         ]);
 
-        return redirect()->route('instruktur.index')
+        return redirect()->route('admin.instruktur.index')
                          ->with('success', 'Instruktur berhasil diperbarui!');
     }
 
@@ -76,7 +76,7 @@ class InstrukturController extends Controller
     {
         Instruktur::findOrFail($id)->delete();
 
-        return redirect()->route('instruktur.index')
+        return redirect()->route('admin.instruktur.index')
                          ->with('success', 'Instruktur berhasil dihapus!');
     }
 }

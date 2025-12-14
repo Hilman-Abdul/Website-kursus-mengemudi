@@ -36,10 +36,10 @@
           </li>
           <!-- Tombol logo (button) -->
          <li class="nav-item">
-            <a href="{{ route('frontend.index') }}" 
+            <a href="{{ route('login.page) }}" 
              class="d-inline-block p-0 border-0 bg-transparent"
              style="width: 40px; height: 40px;">
-             <img src="{{ asset('images/logo1.jpeg') }}" 
+             <img src="{{ asset('images/user.jpg') }}" 
              alt="User Icon" width="40" height="40" 
              class="rounded-circle" style="pointer-events:auto;">
             </a>

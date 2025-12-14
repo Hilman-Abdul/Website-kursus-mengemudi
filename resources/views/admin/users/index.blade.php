@@ -5,7 +5,7 @@
 @section('content')
 <h2 class="text-white mb-4">Data Users</h2>
 
-<a href="{{ route('users.create') }}" class="btn btn-primary mb-3">
+<a href="{{ route('admin.users.create') }}" class="btn btn-primary mb-3">
     <i class="bi bi-plus-circle"></i> Tambah User
 </a>
 
@@ -32,9 +32,9 @@
             <td>{{ $item->jenis_kelamin }}</td>
             <td>{{ $item->alamat }}</td>
             <td>
-                <a href="{{ route('users.edit', $item->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                <a href="{{ route('admin.users.edit', $item->id) }}" class="btn btn-warning btn-sm">Edit</a>
 
-                <form action="{{ route('users.destroy', $item->id) }}" method="POST" style="display:inline">
+                <form action="{{ route('admin.users.destroy', $item->id) }}" method="POST" style="display:inline">
                     @csrf
                     @method('DELETE')
                     <button onclick="return confirm('Yakin hapus?')" class="btn btn-danger btn-sm">

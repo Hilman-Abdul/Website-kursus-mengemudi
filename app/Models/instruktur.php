@@ -15,4 +15,9 @@ class Instruktur extends Model
         'jenis_kelamin',
         'keahlian',
     ];
+
+    public function transaksi()
+    {
+        return $this->hasMany(Transaksi::class);
+    }
 }

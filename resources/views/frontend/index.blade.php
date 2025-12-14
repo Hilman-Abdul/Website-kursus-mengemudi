@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="{{ asset('css/style1.css') }}?v={{ time() }}">
 </head>
 <body>
+  
   <div class="container">
 
     <!-- Checkbox untuk toggle form -->
@@ -22,7 +23,7 @@
           @csrf
 
           <!-- kirim info dari mana user membuka login -->
-          <input type="hidden" name="source" value="{{ $source ?? '' }}">
+          <input type="hidden" name="login_source" value="{{ $source ?? '' }}">
 
           <div class="input-box">
             <input type="email" name="email" placeholder="Email" required>
@@ -67,13 +68,23 @@
 
       <!-- =============== REGISTER FORM =============== -->
       <div class="form-content register">
+        @if ($errors->any())
+  <div style="color:red; margin-bottom:10px;">
+    <ul>
+      @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+      @endforeach
+    </ul>
+  </div>
+@endif
+
         <h2 class="title">Sign up</h2>
 
         <form action="{{ route('register') }}" method="POST">
           @csrf
 
           <div class="input-box">
-            <input type="text" name="nama" placeholder="Name" required>
+            <input type="text" name="nama" placeholder="Nama" required>
           </div>
 
           <div class="input-box">
@@ -83,14 +94,18 @@
           <div class="input-box">
             <input type="email" name="email" placeholder="Email" required>
           </div>
-
           <div class="input-box">
-            <input type="password" name="password" placeholder="Password" required>
+            <input type="password" id="password" name="password" placeholder="Password" required>
           </div>
-
           <div class="input-box">
-            <input type="password" name="password_confirmation" placeholder="Confirm Password" required>
-          </div>
+           <input type="password" id="password_confirmation"
+                  name="password_confirmation"
+                  placeholder="Konfirmasi Password" required>
+           
+           <small id="passwordError" style="color:red; display:none;">
+             Password tidak sama
+           </small>
+           </div>
 
           <div class="input-box button">
             <input type="submit" value="Sign up">
@@ -106,5 +121,22 @@
 
     </div>
   </div>
+
+  <script>
+  const password = document.getElementById('password');
+  const confirmPassword = document.getElementById('password_confirmation');
+  const errorText = document.getElementById('passwordError');
+
+  confirmPassword.addEventListener('input', function () {
+    if (password.value !== confirmPassword.value) {
+      errorText.style.display = 'block';
+      confirmPassword.setCustomValidity('Password tidak sama');
+    } else {
+      errorText.style.display = 'none';
+      confirmPassword.setCustomValidity('');
+    }
+  });
+</script>
+
 </body>
 </html>

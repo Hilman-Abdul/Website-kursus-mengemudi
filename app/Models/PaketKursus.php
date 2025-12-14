@@ -16,12 +16,21 @@ class PaketKursus extends Model
         'nama_paket',
         'harga_paket',
         'waktu_pertemuan',
+        'jenis_paket',
     ];
 
     // Relasi ke Users
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function jadwals()
+    {
+        return $this->hasMany(\App\Models\Jadwal::class);
+    }
+    public function Transaksi()
+    {
+        return $this->hasMany(Transaksi::class);
     }
 
 }

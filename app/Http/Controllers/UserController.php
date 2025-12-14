@@ -42,7 +42,7 @@ class UserController extends Controller
         ]);
 
 
-        return redirect()->route('users.index')->with('success', 'User berhasil ditambahkan!');
+        return redirect()->route('admin.users.index')->with('success', 'User berhasil ditambahkan!');
     }
 
     // Form edit
@@ -79,13 +79,20 @@ class UserController extends Controller
 
         $user->update($data);
 
-        return redirect()->route('users.index')->with('success', 'User berhasil diupdate!');
+        return redirect()->route('admin.users.index')->with('success', 'User berhasil diupdate!');
     }
 
     // Hapus user
     public function destroy($id)
     {
         User::findOrFail($id)->delete();
-        return redirect()->route('users.index')->with('success', 'User berhasil dihapus!');
+        return redirect()->route('admin.users.index')->with('success', 'User berhasil dihapus!');
     }
+
+    public function info()
+    {
+        $user = Auth::user();
+        return view('frontend.info-user', compact('user'));
+    }
+
 }

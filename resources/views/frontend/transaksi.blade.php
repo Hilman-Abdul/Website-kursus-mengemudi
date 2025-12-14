@@ -4,9 +4,38 @@
     <meta charset="UTF-8">
     <title>Pembayaran</title>
 
-    <!-- ICON -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="{{ asset('css/style7.css') }}">
+
+    <style>
+        /* OVERLAY */
+        .payment-overlay{
+            position:fixed;
+            top:0; left:0;
+            width:100%;
+            height:100%;
+            background:rgba(0,0,0,.6);
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            z-index:9999;
+        }
+        .payment-box{
+            background:#fff;
+            padding:30px;
+            border-radius:16px;
+            text-align:center;
+            width:330px;
+        }
+        .barcode-img{
+            width:200px;
+            margin:15px auto;
+        }
+        .success-img{
+            width:180px;
+            margin-bottom:15px;
+        }
+    </style>
 </head>
 
 <body>
@@ -15,150 +44,128 @@
 
     <div class="title">Pembayaran Paket</div>
 
+    <!-- RINGKASAN -->
     <div class="summary-box">
-        <p><b>Nama:</b> {{ $user->name ?? 'Sandi' }}</p>
-        <p><b>Nama Paket:</b> {{ $paket->nama ?? 'Paket Memperlancar manual' }}</p>
-        <p><b>Harga:</b> Rp {{ number_format($paket->harga ?? 150000, 0, ',', '.') }}</p>
-        <p><b>Pertemuan 1:</b> {{ $paket->tgl1 ?? '2025-01-01' }}</p>
-        <p><b>Pertemuan 2:</b> {{ $paket->tgl2 ?? '2025-01-02' }}</p>
-        <p><b>Instruktur:</b> {{ $paket->instruktur ?? 'Budi Rahman' }}</p>
+        <p><b>Nama:</b> {{ $user->nama }}</p>
+        <p><b>Paket:</b> {{ $paket->nama_paket }}</p>
+        <p><b>Harga:</b> Rp {{ number_format($paket->harga_paket,0,',','.') }}</p>
+        <p><b>Pertemuan 1:</b> {{ $jadwal->tanggal1 }} ({{ $jadwal->jam_mulai1 }} - {{ $jadwal->jam_selesai1 }})</p>
+        <p><b>Pertemuan 2:</b> {{ $jadwal->tanggal2 ?? '-' }}</p>
+        <p><b>Instruktur:</b> {{ $instruktur->nama }}</p>
     </div>
 
-    <div class="section-title">E-Wallet</div>
+    <!-- FORM TRANSAKSI -->
+    <form action="{{ route('transaksi.store') }}" method="POST" id="formBayar">
+        @csrf
 
-    <div class="method-grid">
-        <div class="method-card" onclick="selectMethod(this, 'GoPay')">
-            <i class="bi bi-wallet2"></i>
-            <div>GoPay</div>
+        <input type="hidden" name="user_id" value="{{ $user->id }}">
+        <input type="hidden" name="paket_id" value="{{ $paket->id }}">
+        <input type="hidden" name="instruktur_id" value="{{ $instruktur->id }}">
+        <input type="hidden" name="jadwal_id" value="{{ $jadwal->id }}">
+        <input type="hidden" name="metode_pembayaran" id="metodePembayaran">
+
+        <h2 class="section-title">Metode Pembayaran</h2>
+
+        <div class="method-grid">
+            <div class="method-card" onclick="selectMethod(this,'GoPay')">GoPay</div>
+            <div class="method-card" onclick="selectMethod(this,'Dana')">Dana</div>
+            <div class="method-card" onclick="selectMethod(this,'OVO')">OVO</div>
+            <div class="method-card" onclick="selectMethod(this,'BCA')">BCA</div>
+            <div class="method-card" onclick="selectMethod(this,'Mandiri')">Mandiri</div>
+            <div class="method-card" onclick="selectMethod(this,'BRI')">BRI</div>
         </div>
 
-        <div class="method-card" onclick="selectMethod(this, 'Dana')">
-            <i class="bi bi-wallet2"></i>
-            <div>Dana</div>
-        </div>
-
-        <div class="method-card" onclick="selectMethod(this, 'OVO')">
-            <i class="bi bi-wallet2"></i>
-            <div>OVO</div>
-        </div>
-    </div>
-
-    <div class="section-title">Bank Transfer</div>
-
-    <div class="method-grid">
-        <div class="method-card" onclick="selectMethod(this, 'BCA')">
-            <i class="bi bi-bank"></i>
-            <div>BCA</div>
-        </div>
-
-        <div class="method-card" onclick="selectMethod(this, 'Mandiri')">
-            <i class="bi bi-bank"></i>
-            <div>Mandiri</div>
-        </div>
-
-        <div class="method-card" onclick="selectMethod(this, 'BRI')">
-            <i class="bi bi-bank"></i>
-            <div>BRI</div>
-        </div>
-    </div>
-
-    <button onclick="pay()">Bayar Sekarang</button>
+        <button type="button" class="pay-btn" onclick="prosesPembayaran()">
+            Bayar Sekarang
+        </button>
+    </form>
 </div>
 
+<!-- ================= OVERLAY PEMBAYARAN ================= -->
+<div id="paymentOverlay" class="payment-overlay" style="display:none;">
 
-<!-- STRUK POPUP -->
+    <!-- STEP 1 BARCODE -->
+    <div id="stepBarcode" class="payment-box">
+        <h4>Scan Barcode Pembayaran</h4>
+        <img src="{{ asset('images/barcode.jpeg') }}" class="barcode-img">
+        <p>Menunggu pembayaran...</p>
+    </div>
+
+    <!-- STEP 2 BERHASIL -->
+    <div id="stepSuccess" class="payment-box" style="display:none;">
+        <img src="{{ asset('images/succes.jpeg') }}" class="success-img">
+        <h4>Pembayaran Berhasil</h4>
+    </div>
+
+</div>
+
+<!-- ================= POPUP STRUK ================= -->
+@if(session('success'))
+<div id="strukPopup" style="display:flex;">
+@else
 <div id="strukPopup">
-    <div class="struk-box" id="printArea">
-         <div class="struk-logo">
-            <i class="bi bi-receipt-cutoff"></i>
-        </div>
+@endif
 
+    <div class="struk-box" id="printArea">
         <h3>Struk Pembayaran</h3>
 
-        <div class="struk-item">
-            <span class="struk-label">Nama:</span>
-            <span class="struk-value" id="s_nama"></span>
-        </div>
+        <p><b>Nama:</b> {{ $user->nama }}</p>
+        <p><b>Paket:</b> {{ $paket->nama_paket }}</p>
+        <p><b>Harga:</b> Rp {{ number_format($paket->harga_paket,0,',','.') }}</p>
+        <p><b>Instruktur:</b> {{ $instruktur->nama }}</p>
+        <p><b>Metode:</b> {{ session('success.metode') }}</p>
+        <p><b>Pertemuan 1:</b> {{ $jadwal->tanggal1 }}</p>
+        <p><b>Pertemuan 2:</b> {{ $jadwal->tanggal2 ?? '-' }}</p>
 
-        <div class="struk-item">
-            <span class="struk-label">Nama Paket:</span>
-            <span class="struk-value" id="s_paket"></span>
-        </div>
+        <button onclick="printStruk()" class="pay-btn-print">
+            <i class="bi bi-printer"></i> Print Struk
+        </button>
 
-        <div class="struk-item">
-            <span class="struk-label">Harga:</span>
-            <span class="struk-value" id="s_harga"></span>
-        </div>
-
-        <div class="struk-item">
-            <span class="struk-label">Pertemuan 1:</span>
-            <span class="struk-value" id="s_tgl1"></span>
-        </div>
-
-        <div class="struk-item">
-            <span class="struk-label">Pertemuan 2:</span>
-            <span class="struk-value" id="s_tgl2"></span>
-        </div>
-
-        <div class="struk-item">
-            <span class="struk-label">Instruktur:</span>
-            <span class="struk-value" id="s_instruktur"></span>
-        </div>
-
-        <div class="struk-item">
-            <span class="struk-label">Metode Pembayaran:</span>
-            <span class="struk-value" id="s_metode"></span>
-        </div>
-
-        <button class="print-btn" onclick="printStruk()">Print Struk</button>
-
-        <a href="{{ route('frontend.dashboard') }}">
-            <button class="dashboard-btn">Kembali ke Dashboard</button>
+        <a href="{{ route('frontend.dashboard') }}" class="btn-dashboard">
+            Kembali ke Dashboard
         </a>
     </div>
 </div>
 
-
-
+<!-- ================= JAVASCRIPT ================= -->
 <script>
-    let selectedMethod = null;
+function selectMethod(el, metode){
+    document.querySelectorAll('.method-card').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('metodePembayaran').value = metode;
+}
 
-    function selectMethod(card, method) {
-        document.querySelectorAll('.method-card')
-            .forEach(el => el.classList.remove('selected'));
+function prosesPembayaran(){
 
-        card.classList.add('selected');
-        selectedMethod = method;
+    let metode = document.getElementById("metodePembayaran").value;
+    if(!metode){
+        alert("Pilih metode pembayaran terlebih dahulu");
+        return;
     }
 
-    function pay() {
-        if (!selectedMethod) {
-            alert("Pilih metode pembayaran terlebih dahulu!");
-            return;
-        }
+    document.getElementById("paymentOverlay").style.display = "flex";
 
-        // Isi struk
-        document.getElementById("s_nama").innerText = "{{ $user->name ?? 'Nama Siswa' }}";
-        document.getElementById("s_paket").innerText = "{{ $paket->nama ?? 'Paket Mengemudi' }}";
-        document.getElementById("s_harga").innerText = "Rp {{ number_format($paket->harga ?? 150000,0,',','.') }}";
-        document.getElementById("s_tgl1").innerText = "{{ $paket->tgl1 ?? '2025-01-01' }}";
-        document.getElementById("s_tgl2").innerText = "{{ $paket->tgl2 ?? '2025-01-02' }}";
-        document.getElementById("s_instruktur").innerText = "{{ $paket->instruktur ?? 'Budi Rahman' }}";
-        document.getElementById("s_metode").innerText = selectedMethod;
+    // barcode → sukses
+    setTimeout(() => {
+        document.getElementById("stepBarcode").style.display = "none";
+        document.getElementById("stepSuccess").style.display = "block";
+    }, 3000);
 
-        document.getElementById("strukPopup").style.display = "flex";
-    }
+    // sukses → submit
+    setTimeout(() => {
+        document.getElementById("formBayar").submit();
+    }, 5000);
+}
 
-    function printStruk() {
-        const printContent = document.getElementById("printArea").innerHTML;
-        const originalContent = document.body.innerHTML;
+function printStruk(){
+    let isi = document.getElementById("printArea").innerHTML;
+    let asli = document.body.innerHTML;
 
-        document.body.innerHTML = printContent;
-        window.print();
-        document.body.innerHTML = originalContent;
-
-        location.reload();
-    }
+    document.body.innerHTML = isi;
+    window.print();
+    document.body.innerHTML = asli;
+    location.reload();
+}
 </script>
 
 </body>

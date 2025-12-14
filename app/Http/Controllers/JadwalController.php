@@ -3,80 +3,91 @@
 namespace App\Http\Controllers;
 
 use App\Models\Jadwal;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class JadwalController extends Controller
 {
-    // Tampilkan semua jadwal
+    // Tampilkan semua jadwal (admin)
     public function index()
     {
-        $jadwal = Jadwal::all();
+        $jadwal = Jadwal::with('user')->get();
         return view('admin.jadwal.index', compact('jadwal'));
     }
 
-    // Form create jadwal
+    // Form tambah jadwal
     public function create()
     {
-        return view('admin.jadwal.create');
+        $users = User::all(); // untuk memilih user
+        return view('admin.jadwal.create', compact('users'));
     }
 
-    // Proses create jadwal
+    // Simpan jadwal baru
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required',
-            'nama_paket' => 'required',
-            'jam' => 'required',      // waktu
-            'tanggal' => 'required|date',  // tanggal
+            'user_id'      => 'required|exists:users,id',
+            'tanggal1'     => 'required|date',
+            'jam_mulai1'   => 'required|date_format:H:i',
+            'jam_selesai1' => 'required|date_format:H:i|after:jam_mulai1',
+            'tanggal2'     => 'nullable|date',
+            'jam_mulai2'   => 'nullable|date_format:H:i',
+            'jam_selesai2' => 'nullable|date_format:H:i|after:jam_mulai2',
+            'jenis_kelamin'  => 'required|in:Laki-laki,Perempuan',
+            'jenis_paket'  => 'required|in:manual,matic',
         ]);
 
-        Jadwal::create([
-            'nama' => $request->nama,
-            'nama_paket' => $request->nama_paket,
-            'jam' => $request->jam,
-            'tanggal' => $request->tanggal,
-        ]);
+        Jadwal::create($request->all());
 
-        return redirect()->route('jadwal.index')
-                         ->with('success', 'Jadwal berhasil ditambahkan!');
+        return redirect()->route('admin.jadwal.index')->with('success', 'Jadwal berhasil ditambahkan.');
     }
 
     // Form edit jadwal
     public function edit($id)
     {
         $jadwal = Jadwal::findOrFail($id);
-        return view('admin.jadwal.edit', compact('jadwal'));
+        $users = User::all(); // untuk memilih user
+        return view('admin.jadwal.edit', compact('jadwal', 'users'));
     }
 
-    // Proses update jadwal
+    // Update jadwal
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'nama' => 'required',
-            'nama_paket' => 'required',
-            'jam' => 'required',
-            'tanggal' => 'required|date',
-        ]);
-
         $jadwal = Jadwal::findOrFail($id);
 
-        $jadwal->update([
-            'nama' => $request->nama,
-            'nama_paket' => $request->nama_paket,
-            'jam' => $request->jam,
-            'tanggal' => $request->tanggal,
+        $request->validate([
+            'user_id'      => 'required|exists:users,id',
+            'tanggal1'     => 'required|date',
+            'jam_mulai1'   => 'required|date_format:H:i',
+            'jam_selesai1' => 'required|date_format:H:i|after:jam_mulai1',
+            'tanggal2'     => 'nullable|date',
+            'jam_mulai2'   => 'nullable|date_format:H:i',
+            'jam_selesai2' => 'nullable|date_format:H:i|after:jam_mulai2',
+            'gender_user'  => 'required|in:L,P',
+            'jenis_paket'  => 'required|in:manual,matic',
         ]);
 
-        return redirect()->route('jadwal.index')
-                         ->with('success', 'Jadwal berhasil diperbarui!');
+        $jadwal->update($request->all());
+
+        return redirect()->route('admin.jadwal.index')->with('success', 'Jadwal berhasil diperbarui.');
     }
 
     // Hapus jadwal
     public function destroy($id)
     {
         Jadwal::findOrFail($id)->delete();
-
-        return redirect()->route('jadwal.index')
-                         ->with('success', 'Jadwal berhasil dihapus!');
+        return redirect()->route('admin.jadwal.index')->with('success', 'Jadwal berhasil dihapus.');
     }
+
+    public function infoUser()
+{
+    $user = Auth::user();
+
+    // Ambil jadwal berdasarkan user login
+    $jadwal = Jadwal::where('user_id', $user->id)->first();
+
+    return view('frontend.infouser', compact('user', 'jadwal'));
+}
+
 }

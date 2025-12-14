@@ -6,7 +6,7 @@
 
 <h2 class="text-white mb-4">Edit Instruktur</h2>
 
-<form action="{{ route('instruktur.update', $instruktur->id) }}" method="POST">
+<form action="{{ route('admin.instruktur.update', $instruktur->id) }}" method="POST">
 @csrf
 @method('PUT')
 
@@ -33,15 +33,15 @@
     <div class="col-md-6 mb-3">
         <label>Keahlian</label>
         <select name="keahlian" class="form-control">
-            <option value="Mobil Manual" {{ $instruktur->keahlian == 'Mobil Manual' ? 'selected' : '' }}>Mobil Manual</option>
-            <option value="Mobil Matic" {{ $instruktur->keahlian == 'Mobil Matic' ? 'selected' : '' }}>Mobil Matic</option>
+            <option value="Manual" {{ $instruktur->keahlian == 'Manual' ? 'selected' : '' }}>Manual</option>
+            <option value="Matic" {{ $instruktur->keahlian == 'Matic' ? 'selected' : '' }}>Matic</option>
         </select>
     </div>
 
 </div>
 
 <button class="btn btn-success">Update</button>
-<a href="{{ route('instruktur.index') }}" class="btn btn-secondary">Kembali</a>
+<a href="{{ route('admin.instruktur.index') }}" class="btn btn-secondary">Kembali</a>
 
 </form>
 

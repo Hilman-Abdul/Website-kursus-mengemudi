@@ -11,8 +11,14 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+
+        // Daftarkan alias middleware di sini
+        $middleware->alias([
+            'data.lengkap' => \App\Http\Middleware\CheckDataDiri::class,
+        ]);
+
+    })
+    ->withExceptions(function (Exceptions $exceptions): void {
         //
     })
-    ->withExceptions(function (Exceptions $exceptions) {
-        //
-    })->create();
+    ->create();

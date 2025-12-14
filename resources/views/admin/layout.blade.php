@@ -19,12 +19,12 @@
     <!-- SIDEBAR -->
     <div id="sidebar" class="sidebar">
         <a href="{{ route('admin.dashboard') }}"><i class="bi bi-house-door"></i> <span>Dashboard</span></a>
-        <a href="{{ route('users.index') }}"><i class="bi bi-people"></i> <span>Peserta</span></a>
-        <a href="{{ route('paket_kursus.index') }}"><i class="bi bi-list-task"></i> <span>Paket Kursus</span></a>
-        <a href="{{ route('instruktur.index') }}"><i class="bi bi-person-badge"></i> <span>Instruktur</span></a>
-        <a href="{{ route('jadwal.index') }}"><i class="bi bi-calendar-check"></i> <span>Booking</span></a>
-        <a href="{{ route('transaksi.index') }}"><i class="bi bi-cash-stack"></i> <span>Pembayaran</span></a>
-        <a href="{{ route('rating.index') }}"><i class="bi bi-chat-left-text"></i> <span>Rating</span></a>
+        <a href="{{ route('admin.users.index') }}"><i class="bi bi-people"></i> <span>Peserta</span></a>
+        <a href="{{ route('admin.paket_kursus.index') }}"><i class="bi bi-list-task"></i> <span>Paket Kursus</span></a>
+        <a href="{{ route('admin.instruktur.index') }}"><i class="bi bi-person-badge"></i> <span>Instruktur</span></a>
+        <a href="{{ route('admin.jadwal.index') }}"><i class="bi bi-calendar-check"></i> <span>Booking</span></a>
+        <a href="{{ route('admin.transaksi.index') }}"><i class="bi bi-cash-stack"></i> <span>Pembayaran</span></a>
+        <a href="{{ route('admin.rating.index') }}"><i class="bi bi-chat-left-text"></i> <span>Rating</span></a>
     </div>
 
     <!-- TOPBAR -->
@@ -35,7 +35,7 @@
         </a>
 
         <div class="ms-auto d-flex align-items-center">
-            <a href="#" class="text-white me-4 fs-4">
+            <a href="{{ route('admin.notifikasi') }}" class="text-white me-4 fs-4">
                 <i class="bi bi-bell"></i>
             </a>
 

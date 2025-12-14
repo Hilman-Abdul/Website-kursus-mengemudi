@@ -17,7 +17,7 @@ class Jadwal extends Model
         'tanggal1', 'jam_mulai1', 'jam_selesai1',
         'tanggal2', 'jam_mulai2', 'jam_selesai2',
 
-        'gender_user',
+        'jenis_kelamin',
         'jenis_paket',
     ];
 
@@ -27,6 +27,14 @@ class Jadwal extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+     public function PaketKursus()
+    {
+        return $this->belongsTo(PaketKursus::class);
+    }
+    public function Transaksi()
+    {
+        return $this->hasOne(Transaksi::class);
     }
 
 }

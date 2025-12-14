@@ -15,7 +15,6 @@ class Rating extends Model
         'pekerjaan'
     ];
 
-    // relasi ke user
     public function user()
     {
         return $this->belongsTo(User::class);

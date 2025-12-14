@@ -10,30 +10,27 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\PaketKursusController;
 use App\Http\Controllers\UserPaketController;
+use App\Http\Controllers\UserTransaksiController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminRatingController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\UserJadwalController;
+use App\Http\Controllers\AdminNotifikasiController;
 
 /*
 |--------------------------------------------------------------------------
 | PUBLIC ROUTES
 |--------------------------------------------------------------------------
 */
-Route::get('/', fn() => view('frontend.loading_screen'))->name('frontend.loading_screen');
-
-Route::get('/paket1', fn() => view('frontend.paket'))->name('frontend.paket');
-Route::get('/tentang1', fn() => view('frontend.tentang'))->name('frontend.tentang');
-Route::get('/kontak1', fn() => view('frontend.kontak'))->name('frontend.kontak');
-
+Route::view('/', 'frontend.loading_screen')->name('frontend.loading_screen');
 Route::get('/dashboard', [FrontendController::class, 'dashboard'])->name('frontend.dashboard');
+Route::view('/tentang', 'frontend.tentang')->name('frontend.tentang');
+Route::view('/kontak', 'frontend.kontak')->name('frontend.kontak');
+Route::view('/notifikasi', 'frontend.notifikasi')->name('frontend.notifikasi');
+Route::get('/info-user', [UserController::class, 'info'])->name('frontend.infouser');
+Route::get('/info-user1', [JadwalController::class, 'infoUser'])->name('info.user');
 
-// Halaman transaksi kosong (belum isi)
-Route::get('/form/transaksi', fn() => view('frontend.transaksi'))->name('frontend.transaksi');
-
-// Rating publik
-Route::get('/rating', fn() => view('frontend.rating'))->name('frontend.rating');
 
 
 /*
@@ -49,7 +46,6 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-
 /*
 |--------------------------------------------------------------------------
 | USER ROUTES (HARUS LOGIN)
@@ -57,67 +53,75 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 */
 Route::middleware(['auth'])->group(function () {
 
-    // Lengkapi Data Diri
+    // FORM DATA DIRI
     Route::get('/lengkapi-data', [DataDiriController::class, 'index'])->name('data.lengkapi');
     Route::post('/lengkapi-data', [DataDiriController::class, 'store'])->name('data.simpan');
 
     /*
     |--------------------------------------------------------------------------
-    | USER ROUTES (DATA DIRI HARUS LENGKAP)
+    | ROUTES SETELAH DATA DIRI LENGKAP
     |--------------------------------------------------------------------------
+    | Gunakan middleware CheckUserFlow untuk cek login & data diri
     */
     Route::middleware(['data.lengkap'])->group(function () {
 
-        // Profile
-        Route::get('/profile', [ProfileController::class, 'index'])->name('frontend.profile');
-        Route::post('/profile/update', [ProfileController::class, 'update'])
-            ->name('frontend.profile.update');
 
-        // Rating user
-        Route::get('/rating/form', [UserRatingController::class, 'create'])->name('rating.form');
+        // PROFILE
+        Route::get('/profile', [ProfileController::class, 'index'])->name('frontend.profile');
+        Route::post('/profile/update', [ProfileController::class, 'update'])->name('frontend.profile.update');
+
+        // RATING
+        Route::get('/rating', [UserRatingController::class, 'create'])->name('rating.form');
         Route::post('/rating', [UserRatingController::class, 'store'])->name('rating.store');
 
-        // Pilih paket
+        // PAKET
+        Route::get('/paket', [FrontendController::class, 'paket'])->name('frontend.paket');
         Route::post('/pilih-paket', [UserPaketController::class, 'pilihPaket'])->name('pilih.paket');
         Route::get('/batalkan-paket', [UserPaketController::class, 'batal'])->name('paket.batal');
 
-        /*
-        |--------------------------------------------------------------------------
-        | USER — JADWAL KURSUS (FINAL)
-        |--------------------------------------------------------------------------
-        */
+        // JADWAL
         Route::get('/jadwal', [UserJadwalController::class, 'userIndex'])->name('jadwal.user');
         Route::post('/jadwal/store', [UserJadwalController::class, 'pilihJadwal'])->name('jadwal.store');
+        Route::get('/jadwal/booked', [UserJadwalController::class, 'getBookedDates'])->name('jadwal.booked');
 
-        // API untuk cek tanggal yang sudah di-booking
-        Route::get('/jadwal/booked', [UserJadwalController::class, 'getBookedDates'])
-            ->name('jadwal.booked');
+        // TRANSAKSI
+        Route::get('/transaksi', [UserTransaksiController::class, 'userForm'])->name('frontend.transaksi');
+        Route::post('/transaksi/store', [UserTransaksiController::class, 'store'])->name('transaksi.store');
+        Route::view('/transaksi/sukses', 'frontend.sukses')->name('frontend.sukses');
+
     });
 });
 
-
 /*
 |--------------------------------------------------------------------------
-| ADMIN ROUTES
+| ADMIN ROUTES (PREFIX: /admin)
 |--------------------------------------------------------------------------
 */
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->name('admin.')->group(function () {
+     Route::get('/notifikasi', [App\Http\Controllers\AdminNotifikasiController::class, 'index'])
+        ->name('notifikasi');
 
-    // Login admin
-    Route::get('/login', [AdminAuthController::class, 'showLogin'])->name('admin.login.page');
-    Route::post('/login', [AdminAuthController::class, 'login'])->name('admin.login');
+    Route::get('/notifikasi/peserta', [App\Http\Controllers\AdminNotifikasiController::class, 'peserta'])
+        ->name('notifikasi.peserta');
 
-    // Logout admin
-    Route::post('/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+    Route::get('/notifikasi/transaksi', [App\Http\Controllers\AdminNotifikasiController::class, 'transaksi'])
+        ->name('notifikasi.transaksi');
 
-    // Dashboard admin
-    Route::get('/dashboard', fn() => view('admin.dashboard'))->name('admin.dashboard');
+    // LOGIN ADMIN
+    Route::get('/login', [AdminAuthController::class, 'showLogin'])->name('login.page');
+    Route::post('/login', [AdminAuthController::class, 'login'])->name('login');
 
-    // CRUD Admin
+    // LOGOUT ADMIN
+    Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
+
+    // DASHBOARD ADMIN
+    Route::view('/dashboard', 'admin.dashboard')->name('dashboard');
+
+    // CRUD ADMIN
     Route::resource('instruktur', InstrukturController::class);
     Route::resource('users', UserController::class);
-    Route::resource('jadwal', JadwalController::class);  // admin CRUD
+    Route::resource('jadwal', JadwalController::class);
     Route::resource('paket_kursus', PaketKursusController::class);
-    Route::resource('transaksi', TransaksiController::class);
+    Route::resource('transaksi', TransaksiController::class); // atau UserTransaksiController
     Route::resource('rating', AdminRatingController::class);
 });

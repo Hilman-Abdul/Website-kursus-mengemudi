@@ -1,50 +1,50 @@
 @extends('admin.layout')
 
-@section('title', 'Edit Paket')
+@section('title', 'Edit Paket Kursus')
 
 @section('content')
+<h2 class="text-white mb-4">Edit Paket Kursus</h2>
 
-<h2 class="text-white mb-4">Edit Paket</h2>
+<form action="{{ route('admin.paket_kursus.update', $paket->id) }}" method="POST">
+    @csrf
+    @method('PUT')
 
-<div class="card p-4" style="background:#1f2937; color:white;">
+    <div class="mb-3">
+        <label class="form-label text-white">User</label>
+        <select name="user_id" class="form-control" required>
+            <option value="">-- Pilih User --</option>
+            @foreach(\App\Models\User::all() as $user)
+            <option value="{{ $user->id }}" {{ $paket->user_id == $user->id ? 'selected' : '' }}>
+                {{ $user->nama }}
+            </option>
+            @endforeach
+        </select>
+    </div>
 
-    <form action="{{ route('paket_kursus.update', $paket->id) }}" method="POST">
-        @csrf
-        @method('PUT')
+    <div class="mb-3">
+        <label class="form-label text-white">Nama Paket</label>
+        <input type="text" name="nama_paket" class="form-control" value="{{ $paket->nama_paket }}" required>
+    </div>
 
-        <div class="row">
+    <div class="mb-3">
+        <label class="form-label text-white">Harga Paket</label>
+        <input type="number" name="harga_paket" class="form-control" value="{{ $paket->harga_paket }}" required>
+    </div>
 
-            <div class="col-md-6 mb-3">
-                <label>Nama</label>
-                <input name="nama" value="{{ $paket->nama }}" 
-                       type="text" class="form-control" required>
-            </div>
+    <div class="mb-3">
+        <label class="form-label text-white">Waktu Pertemuan</label>
+        <input type="text" name="waktu_pertemuan" class="form-control" value="{{ $paket->waktu_pertemuan }}" required>
+    </div>
 
-            <div class="col-md-6 mb-3">
-                <label>Nama Paket</label>
-                <input name="nama_paket" value="{{ $paket->nama_paket }}" 
-                       type="text" class="form-control" required>
-            </div>
+    <div class="mb-3">
+        <label class="form-label text-white">Jenis Paket</label>
+        <select name="jenis_paket" class="form-control" required>
+            <option value="manual" {{ $paket->jenis_paket == 'manual' ? 'selected' : '' }}>Manual</option>
+            <option value="matic" {{ $paket->jenis_paket == 'matic' ? 'selected' : '' }}>Matic</option>
+        </select>
+    </div>
 
-            <div class="col-md-6 mb-3">
-                <label>Harga Paket</label>
-                <input name="harga_paket" value="{{ $paket->harga_paket }}" 
-                       type="number" class="form-control" required>
-            </div>
-
-            <div class="col-md-6 mb-3">
-                <label>Waktu</label>
-                <input name="waktu" value="{{ $paket->waktu }}" 
-                       type="text" class="form-control" required>
-            </div>
-
-        </div>
-
-        <button class="btn btn-success mt-3">Update</button>
-        <a href="{{ route('paket_kursus.index') }}" class="btn btn-secondary mt-3">Kembali</a>
-
-    </form>
-
-</div>
-
+    <button class="btn btn-success">Update</button>
+    <a href="{{ route('admin.paket_kursus.index') }}" class="btn btn-secondary">Kembali</a>
+</form>
 @endsection

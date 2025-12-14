@@ -8,33 +8,24 @@ use Illuminate\Support\Facades\Auth;
 
 class UserRatingController extends Controller
 {
-    // tampilkan form
     public function create()
     {
-        return view('rating.form');
+        return view('frontend.rating');
     }
 
-    // simpan rating
     public function store(Request $request)
     {
         $request->validate([
-            'komentar' => 'required|string|max:255',
-            'pekerjaan' => 'nullable|string|max:255'
+            'komentar' => 'required|string|max:500',
+            'pekerjaan' => 'nullable|string|max:100',
         ]);
 
         Rating::create([
-            'user_id' => Auth::id(),
-            'komentar' => $request->komentar,
+            'user_id'   => Auth::id(),
+            'komentar'  => $request->komentar,
             'pekerjaan' => $request->pekerjaan,
         ]);
 
-        return redirect()->back()->with('success', 'Rating berhasil dikirim!');
-    }
-
-    // ambil semua rating untuk ditampilkan di landing page
-    public function index()
-    {
-        $ratings = Rating::with('user')->latest()->get();
-        return view('frontend.dashboard', compact('ratings'));
+        return redirect('/dashboard')->with('success', 'Rating berhasil dikirim!');
     }
 }

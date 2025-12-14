@@ -6,12 +6,12 @@
 
 @php
     // DATA DUMMY – hanya untuk frontend sementara
-    $jumlah_peserta = 120;
-    $matic_lk      = 15;
-    $manual_lk     = 12;
-    $matic_pr      = 10;
-    $manual_pr     = 8;
-    $total_income  = 15000000;
+    $jumlah_peserta = 1;
+    $matic_lk      = 2;
+    $manual_lk     = 2;
+    $matic_pr      = 2;
+    $manual_pr     = 2;
+    $total_income  = 775000;
 @endphp
 
 <div class="row g-4">

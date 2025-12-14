@@ -7,7 +7,7 @@
 <h2 class="text-white mb-4">Data Instruktur</h2>
 
 <div class="mb-3">
-    <a href="{{ route('instruktur.create') }}" class="btn btn-primary">
+    <a href="{{ route('admin.instruktur.create') }}" class="btn btn-primary">
         <i class="bi bi-plus-circle"></i> Tambah Instruktur
     </a>
 </div>
@@ -34,9 +34,9 @@
             <td>{{ $i->keahlian }}</td>
 
             <td>
-                <a href="{{ route('instruktur.edit', $i->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                <a href="{{ route('admin.instruktur.edit', $i->id) }}" class="btn btn-warning btn-sm">Edit</a>
 
-                <form action="{{ route('instruktur.destroy', $i->id) }}" method="POST" style="display:inline;">
+                <form action="{{ route('admin.instruktur.destroy', $i->id) }}" method="POST" style="display:inline;">
                     @csrf
                     @method('DELETE')
                     <button onclick="return confirm('Yakin hapus?')" class="btn btn-danger btn-sm">

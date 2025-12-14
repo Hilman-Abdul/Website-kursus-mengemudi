@@ -7,7 +7,7 @@
 <h2 class="text-white mb-4">Edit Jadwal</h2>
 
 <div class="card p-4" style="background:#1f2937; color:white;">
-    <form action="{{ route('jadwal.update', $jadwal->id) }}" method="POST">
+    <form action="{{ route('admin.jadwal.update', $jadwal->id) }}" method="POST">
     @csrf
     @method('PUT')
 
@@ -34,7 +34,7 @@
     </div>
 
     <button class="btn btn-success mt-3">Update</button>
-    <a href="{{ route('jadwal.index') }}" class="btn btn-secondary mt-3">Kembali</a>
+    <a href="{{ route('admin.jadwal.index') }}" class="btn btn-secondary mt-3">Kembali</a>
 </form>
 </div>
 

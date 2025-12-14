@@ -40,7 +40,7 @@
           <div class="ms-auto d-flex align-items-center">
 
             <!-- BELL -->
-            <a href="#" class="text-black me-3 fs-3" data-bs-toggle="modal" data-bs-target="#notifModal">
+            <a href="{{ route('frontend.notifikasi') }}" class="text-black me-3 fs-3">
               <i class="bi bi-bell-fill"></i>
             </a>
 
@@ -50,7 +50,8 @@
                 <img src="{{ asset('images/user.jpg') }}" class="rounded-circle" width="40" height="40">
               </a>
 
-            @else
+            @endguest
+            @auth
               <!-- Jika SUDAH LOGIN -->
               <a href="{{ route('frontend.profile') }}" class="d-flex align-items-center">
               <!--<img src="{{ Auth::user()->foto ? asset('storage/foto/' . Auth::user()->foto) : asset('images/user.jpg') }}">-->
@@ -61,7 +62,7 @@
               <span class="ms-2 text-dark fw-bold">
                 {{ Auth::user()->username }}
               </span>
-            @endguest
+            @endauth
 
           </div>
         </li>
@@ -114,33 +115,33 @@
 
         @guest
           {{-- Belum login --}}
-          <a href="{{ route('login.page', ['source' => 'paket']) }}" class="btn paket-btn w-100 mb-3">6 x 60 Menit Rp 720.000</a>
-          <a href="{{ route('login.page', ['source' => 'paket']) }}" class="btn paket-btn w-100 mb-3">8 x 60 Menit Rp 960.000</a>
+          <a href="{{ route('login.page', ['source' => 'paket']) }}" class="btn paket-btn w-100 mb-3">6 jam x 1 hari Rp 775.000</a>
+          <a href="{{ route('login.page', ['source' => 'paket']) }}" class="btn paket-btn w-100 mb-3">6 jam x 2 hari Rp 1.500.000</a>
 
         @else
           @if(Auth::user()->nik == null)
             {{-- Sudah login tapi data diri belum lengkap --}}
-            <a href="{{ route('data.lengkapi') }}" class="btn paket-btn w-100 mb-3">6 x 60 Menit Rp 720.000</a>
-            <a href="{{ route('data.lengkapi') }}" class="btn paket-btn w-100 mb-3">8 x 60 Menit Rp 960.000</a>
+            <a href="{{ route('data.lengkapi') }}" class="btn paket-btn w-100 mb-3">6 jam x 1 hari Rp 775.000</a>
+            <a href="{{ route('data.lengkapi') }}" class="btn paket-btn w-100 mb-3">6 jam x 2 hari Rp 1.500.000</a>
 
           @else
             {{-- Data lengkap → simpan paket & lanjut jadwal --}}
             <form action="{{ route('pilih.paket') }}" method="POST">
               @csrf
               <input type="hidden" name="nama_paket" value="Memperlancar Manual">
-              <input type="hidden" name="waktu" value="6 x 60 Menit">
-              <input type="hidden" name="harga" value="720000">
+              <input type="hidden" name="waktu" value="6 jam x 1 hari">
+              <input type="hidden" name="harga" value="775000">
               <input type="hidden" name="jenis_paket" value="manual">
-              <button class="btn paket-btn w-100 mb-3">6 x 60 Menit Rp 720.000</button>
+              <button class="btn paket-btn w-100 mb-3">6 jam x 1 hari Rp 775.000</button>
             </form>
 
             <form action="{{ route('pilih.paket') }}" method="POST">
               @csrf
               <input type="hidden" name="nama_paket" value="Memperlancar Manual">
-              <input type="hidden" name="waktu" value="8 x 60 Menit">
-              <input type="hidden" name="harga" value="960000">
+              <input type="hidden" name="waktu" value="6 jam x 2 hari">
+              <input type="hidden" name="harga" value="1550000">
               <input type="hidden" name="jenis_paket" value="manual">
-              <button class="btn paket-btn w-100 mb-3">8 x 60 Menit Rp 960.000</button>
+              <button class="btn paket-btn w-100 mb-3">6 jam x 2 hari Rp 1.500.000</button>
             </form>
 
           @endif
@@ -152,44 +153,33 @@
         <h4 class="fw-bold mb-4">Kelas Dasar Manual</h4>
 
         @guest
-          <a href="{{ route('login.page', ['source' => 'paket']) }}" class="btn paket-btn w-100 mb-3">10 x 60 Menit Rp 1.200.000</a>
-          <a href="{{ route('login.page', ['source' => 'paket']) }}" class="btn paket-btn w-100 mb-3">12 x 60 Menit Rp 1.440.000</a>
-          <a href="{{ route('login.page', ['source' => 'paket']) }}" class="btn paket-btn w-100">14 x 60 Menit Rp 1.920.000</a>
+          <a href="{{ route('login.page', ['source' => 'paket']) }}" class="btn paket-btn w-100 mb-3">6 jam x 1 hari Rp 800.000</a>
+          <a href="{{ route('login.page', ['source' => 'paket']) }}" class="btn paket-btn w-100 mb-3">6 jam x 2 hari Rp 1.550.000</a>
 
         @else
           @if(Auth::user()->nik == null)
 
-            <a href="{{ route('data.lengkapi') }}" class="btn paket-btn w-100 mb-3">10 x 60 Menit Rp 1.200.000</a>
-            <a href="{{ route('data.lengkapi') }}" class="btn paket-btn w-100 mb-3">12 x 60 Menit Rp 1.440.000</a>
-            <a href="{{ route('data.lengkapi') }}" class="btn paket-btn w-100">14 x 60 Menit Rp 1.920.000</a>
+            <a href="{{ route('data.lengkapi') }}" class="btn paket-btn w-100 mb-3">6 jam x 1 hari Rp 800.000</a>
+            <a href="{{ route('data.lengkapi') }}" class="btn paket-btn w-100 mb-3">6 jam x 2 hari Rp 1.550.000</a>
 
           @else
 
             <form action="{{ route('pilih.paket') }}" method="POST">
               @csrf
               <input type="hidden" name="nama_paket" value="Dasar Manual">
-              <input type="hidden" name="waktu" value="10 x 60 Menit">
-              <input type="hidden" name="harga" value="1200000">
+              <input type="hidden" name="waktu" value="6 jam x 1 hari">
+              <input type="hidden" name="harga" value="800000">
               <input type="hidden" name="jenis_paket" value="manual">
-              <button class="btn paket-btn w-100 mb-3">10 x 60 Menit Rp 1.200.000</button>
+              <button class="btn paket-btn w-100 mb-3">6 jam x 1 hari Rp 800.000</button>
             </form>
 
             <form action="{{ route('pilih.paket') }}" method="POST">
               @csrf
               <input type="hidden" name="nama_paket" value="Dasar Manual">
-              <input type="hidden" name="waktu" value="12 x 60 Menit">
-              <input type="hidden" name="harga" value="1440000">
+              <input type="hidden" name="waktu" value="6 jam x 2 hari">
+              <input type="hidden" name="harga" value="1550000">
               <input type="hidden" name="jenis_paket" value="manual">
-              <button class="btn paket-btn w-100 mb-3">12 x 60 Menit Rp 1.440.000</button>
-            </form>
-
-            <form action="{{ route('pilih.paket') }}" method="POST">
-              @csrf
-              <input type="hidden" name="nama_paket" value="Dasar Manual">
-              <input type="hidden" name="waktu" value="14 x 60 Menit">
-              <input type="hidden" name="harga" value="1920000">
-              <input type="hidden" name="jenis_paket" value="manual">
-              <button class="btn paket-btn w-100">14 x 60 Menit Rp 1.920.000</button>
+              <button class="btn paket-btn w-100 mb-3">6 x 2 hari Rp 1.550.000</button>
             </form>
 
           @endif
@@ -208,33 +198,33 @@
         <h4 class="fw-bold mb-4">Kelas Memperlancar Matic</h4>
 
         @guest
-          <a href="{{ route('login.page', ['source' => 'paket']) }}" class="btn paket-btn w-100 mb-3">6 x 60 Menit Rp 840.000</a>
-          <a href="{{ route('login.page', ['source' => 'paket']) }}" class="btn paket-btn w-100 mb-3">8 x 60 Menit Rp 1.120.000</a>
+          <a href="{{ route('login.page', ['source' => 'paket']) }}" class="btn paket-btn w-100 mb-3">6 jam x 2 hari Rp 875.000</a>
+          <a href="{{ route('login.page', ['source' => 'paket']) }}" class="btn paket-btn w-100 mb-3">6 jam x 2 hari  Rp 1.600.000</a>
 
         @else
           @if(Auth::user()->nik == null)
 
-            <a href="{{ route('data.lengkapi') }}" class="btn paket-btn w-100 mb-3">6 x 60 Menit Rp 840.000</a>
-            <a href="{{ route('data.lengkapi') }}" class="btn paket-btn w-100 mb-3">8 x 60 Menit Rp 1.120.000</a>
+            <a href="{{ route('data.lengkapi') }}" class="btn paket-btn w-100 mb-3">6 jam x 1 hari Rp 875.000</a>
+            <a href="{{ route('data.lengkapi') }}" class="btn paket-btn w-100 mb-3">6 jam x 2 hari Rp 1.600.000</a>
 
           @else
 
             <form action="{{ route('pilih.paket') }}" method="POST">
               @csrf
               <input type="hidden" name="nama_paket" value="Memperlancar Matic">
-              <input type="hidden" name="waktu" value="6 x 60 Menit">
-              <input type="hidden" name="harga" value="840000">
+              <input type="hidden" name="waktu" value="6 jam x 1 hari">
+              <input type="hidden" name="harga" value="875000">
               <input type="hidden" name="jenis_paket" value="matic">
-              <button class="btn paket-btn w-100 mb-3">6 x 60 Menit Rp 840.000</button>
+              <button class="btn paket-btn w-100 mb-3">6 jam x 1 hari Rp 875.000</button>
             </form>
 
             <form action="{{ route('pilih.paket') }}" method="POST">
               @csrf
               <input type="hidden" name="nama_paket" value="Memperlancar Matic">
-              <input type="hidden" name="waktu" value="8 x 60 Menit">
-              <input type="hidden" name="harga" value="1120000">
+              <input type="hidden" name="waktu" value="6 jam x 2 hari">
+              <input type="hidden" name="harga" value="1600000">
               <input type="hidden" name="jenis_paket" value="matic">
-              <button class="btn paket-btn w-100 mb-3">8 x 60 Menit Rp 1.120.000</button>
+              <button class="btn paket-btn w-100 mb-3">6 jam x 2 hari Rp 1.600.000</button>
             </form>
 
           @endif
@@ -246,44 +236,33 @@
         <h4 class="fw-bold mb-4">Kelas Dasar Matic</h4>
 
         @guest
-          <a href="{{ route('login.page', ['source' => 'paket']) }}" class="btn paket-btn w-100 mb-3">10 x 60 Menit Rp 1.400.000</a>
-          <a href="{{ route('login.page', ['source' => 'paket']) }}" class="btn paket-btn w-100 mb-3">12 x 60 Menit Rp 1.680.000</a>
-          <a href="{{ route('login.page', ['source' => 'paket']) }}" class="btn paket-btn w-100">14 x 60 Menit Rp 1.960.000</a>
+          <a href="{{ route('login.page', ['source' => 'paket']) }}" class="btn paket-btn w-100 mb-3">6 jam x 1 hari Rp 900.000</a>
+          <a href="{{ route('login.page', ['source' => 'paket']) }}" class="btn paket-btn w-100 mb-3">6 jam x 2 hari Rp 1.650.000</a>
 
         @else
           @if(Auth::user()->nik == null)
 
-            <a href="{{ route('data.lengkapi') }}" class="btn paket-btn w-100 mb-3">10 x 60 Menit Rp 1.400.000</a>
-            <a href="{{ route('data.lengkapi') }}" class="btn paket-btn w-100 mb-3">12 x 60 Menit Rp 1.680.000</a>
-            <a href="{{ route('data.lengkapi') }}" class="btn paket-btn w-100">14 x 60 Menit Rp 1.960.000</a>
+            <a href="{{ route('data.lengkapi') }}" class="btn paket-btn w-100 mb-3">6 jam x 1 hari Rp 900.000</a>
+            <a href="{{ route('data.lengkapi') }}" class="btn paket-btn w-100 mb-3">6 jam x 2 hari Rp 1.650.000</a>
 
           @else
 
             <form action="{{ route('pilih.paket') }}" method="POST">
               @csrf
               <input type="hidden" name="nama_paket" value="Dasar Matic">
-              <input type="hidden" name="waktu" value="10 x 60 Menit">
-              <input type="hidden" name="harga" value="1400000">
+              <input type="hidden" name="waktu" value="6 jam x 1 hari">
+              <input type="hidden" name="harga" value="900000">
               <input type="hidden" name="jenis_paket" value="matic">
-              <button class="btn paket-btn w-100 mb-3">10 x 60 Menit Rp 1.400.000</button>
+              <button class="btn paket-btn w-100 mb-3">6 jam x 1 hari Rp 900.000</button>
             </form>
 
             <form action="{{ route('pilih.paket') }}" method="POST">
               @csrf
               <input type="hidden" name="nama_paket" value="Dasar Matic">
-              <input type="hidden" name="waktu" value="12 x 60 Menit">
-              <input type="hidden" name="harga" value="1680000">
+              <input type="hidden" name="waktu" value="6 jam x 2 hari">
+              <input type="hidden" name="harga" value="1650000">
               <input type="hidden" name="jenis_paket" value="matic">
-              <button class="btn paket-btn w-100 mb-3">12 x 60 Menit Rp 1.680.000</button>
-            </form>
-
-            <form action="{{ route('pilih.paket') }}" method="POST">
-              @csrf
-              <input type="hidden" name="nama_paket" value="Dasar Matic">
-              <input type="hidden" name="waktu" value="14 x 60 Menit">
-              <input type="hidden" name="harga" value="1960000">
-              <input type="hidden" name="jenis_paket" value="matic">
-              <button class="btn paket-btn w-100">14 x 60 Menit Rp 1.960.000</button>
+              <button class="btn paket-btn w-100 mb-3">6 jam x 2 hari Rp 1.650.000</button>
             </form>
 
           @endif
@@ -328,7 +307,7 @@
   </div>
 
   <div class="social-group">
-    <a href="https://facebook.com" class="icon facebook" target="_blank">
+    <a href="https://www.facebook.com/share/1ahMuBPtNA/" class="icon facebook" target="_blank">
       <i class="fab fa-facebook-f"></i><span class="label">Facebook</span>
     </a>
 
@@ -336,47 +315,12 @@
       <i class="fab fa-instagram"></i><span class="label">Instagram</span>
     </a>
 
-    <a href="https://wa.me/6281234567890" class="icon whatsapp" target="_blank">
+    <a href="https://wa.me/62895330135489" class="icon whatsapp" target="_blank">
       <i class="fab fa-whatsapp"></i><span class="label">WhatsApp</span>
     </a>
   </div>
 
 </section>
-
-
-<!-- ========================== MODAL NOTIF ========================== -->
-<div class="modal fade" id="notifModal" tabindex="-1">
-  <div class="modal-dialog modal-dialog-scrollable">
-    <div class="modal-content bg-dark text-white">
-
-      <div class="modal-header border-secondary">
-        <h5 class="modal-title">Notifikasi Kursus Mobil</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-      </div>
-
-      <div class="modal-body">
-
-        <div class="card bg-secondary p-3 mb-3">
-          <h6>Kursus Mobil Manual</h6>
-          <p>Tanggal: <strong>20 November 2025</strong></p>
-          <p>Jam: <strong>13:00 - 15:00</strong></p>
-          <div class="text-warning">
-            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-            <i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
-            <i class="bi bi-star"></i>
-            <span class="text-white">(3.5)</span>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="modal-footer border-secondary">
-        <button class="btn btn-light" data-bs-dismiss="modal">Tutup</button>
-      </div>
-
-    </div>
-  </div>
-</div>
 
 
 <!-- ========================== SCRIPT ========================== -->

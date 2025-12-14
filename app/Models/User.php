@@ -36,9 +36,9 @@ class User extends Authenticatable
         return $this->hasOne(\App\Models\PaketKursus::class);
     }
 
-    public function jadwals()
+    public function jadwal()
     {
-        return $this->hasMany(\App\Models\Jadwal::class);
+        return $this->hasOne(jadwal::class);
     }
 
 }

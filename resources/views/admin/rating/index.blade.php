@@ -10,20 +10,28 @@
     <thead>
         <tr>
             <th>ID</th>
-            <th>Nama Siswa</th>
+            <th>User</th>
             <th>Komentar</th>
-            <th>Rating</th>
-            <th>Tanggal</th>
+            <th>Pekerjaan</th>
+            <th>Aksi</th>
         </tr>
     </thead>
     <tbody>
         @foreach($ratings as $r)
         <tr>
             <td>{{ $r->id }}</td>
-            <td>{{ $r->nama }}</td>
+            <td>{{ $r->user_id }}</td>
             <td>{{ $r->komentar }}</td>
-            <td>{{ $r->rating }}</td>
-            <td>{{ $r->created_at->format('d-m-Y') }}</td>
+            <td>{{ $r->pekerjaan }}</td>
+            <td>
+                <form action="{{ route('admin.rating.destroy', $r->id) }}" method="POST" style="display:inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button onclick="return confirm('Yakin ingin hapus rating ini?')" class="btn btn-danger btn-sm">
+                        Hapus
+                    </button>
+                </form>
+            </td>
         </tr>
         @endforeach
     </tbody>
